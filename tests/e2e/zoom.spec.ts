@@ -3,7 +3,7 @@
 import { expect, test } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import { clickAt, editing, launch, preview, quit, sleep, workdir, type Ctx } from './helpers'
+import { clickAt, editing, launch, preview, quit, sleep, state, workdir, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
@@ -19,9 +19,18 @@ for (const zoom of [125, 150]) {
     ctx = await launch([path.join(dir, 'basic.html')], { settings })
     const page = await preview(ctx.app)
     await sleep(300)
-    await clickAt(page, 'h1', { offset: 1 })
-    await editing(ctx.app, true)
-    await sleep(200)
+    await page.evaluate(() => {
+      const w = window as unknown as { __blurs: number }
+      w.__blurs = 0
+      window.addEventListener('blur', () => w.__blurs++)
+    })
+    // 第一次：一下选中、一下改字；被打断后 h1 还是选中的，再点一下就进入改字
+    const enter = async (once = false): Promise<void> => {
+      await clickAt(page, 'h1', { offset: 1, once })
+      await editing(ctx.app, true)
+      await sleep(200)
+    }
+    await enter()
     const css = await page.evaluate(() => {
       const r = document.querySelector('h1')!.getBoundingClientRect()
       return { x: r.left, y: r.top, w: r.width, h: r.height, dpr: devicePixelRatio }
@@ -29,7 +38,7 @@ for (const zoom of [125, 150]) {
     // 框的上下边是横跨元素的整行编辑色；只在这样的行之间找左右边。
     // Windows 的 ClearType 会在黑字边缘留下零星彩色像素，有的落在编辑色的容差里，不能算进框里
     const minRun = 0.3 * css.w * css.dpr
-    const box = await ctx.app.evaluate(async (_e, minRun) => {
+    const capture = (): Promise<{ x0: number; y0: number; x1: number; y1: number; scale: number; png: string }> => ctx.app.evaluate(async (_e, minRun) => {
       const w = (globalThis as unknown as { __hw: { ws: { active: { view: Electron.WebContentsView } } } }).__hw.ws
       const img = await w.active.view.webContents.capturePage()
       const { width, height } = img.getSize()
@@ -57,11 +66,21 @@ for (const zoom of [125, 150]) {
       }
       return { x0, y0, x1, y1, scale: sw / width, png: img.toPNG().toString('base64') }
     }, minRun)
+    // 窗口失去焦点会提交并退出编辑（preview.ts 的 blur）。macOS CI 上偶尔截到选中框而不是编辑框（疑似别的窗口抢走焦点，blurs 记录次数）：
+    // 截图后确认仍在编辑，被打断就重新进入再截
+    let box = await capture()
+    let interrupted = 0
+    while (!(await state(ctx.app)).editing && interrupted < 3) {
+      interrupted++
+      await enter(true)
+      box = await capture()
+    }
+    const blurs = await page.evaluate(() => (window as unknown as { __blurs: number }).__blurs)
     // 设备像素 = CSS 像素（已含页面缩放）× devicePixelRatio
     const k = css.dpr * box.scale
     // 留下现场：失败时随 test-results 一起上传，对照截图看编辑色像素落在哪里
     fs.writeFileSync(info.outputPath('preview.png'), Buffer.from(box.png, 'base64'))
-    fs.writeFileSync(info.outputPath('measure.json'), JSON.stringify({ css, box: { ...box, png: undefined }, k }, null, 1))
+    fs.writeFileSync(info.outputPath('measure.json'), JSON.stringify({ css, box: { ...box, png: undefined }, k, interrupted, blurs }, null, 1))
     expect(box.x1).toBeGreaterThan(0)
     // 「文字」标签在框外左上方，所以只比较左、右、下三边；上边由标签决定
     const tol = 4 * k
