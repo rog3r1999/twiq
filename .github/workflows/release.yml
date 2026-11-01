@@ -50,7 +50,7 @@ jobs:
       # 哪个系统的端到端测试没过，就不出那个系统的安装包
       - run: pnpm test:e2e
         env:
-          HW_PERF_SLACK: ${{ runner.os == 'Windows' && '1.5' || '1' }}
+          HW_PERF_SLACK: ${{ runner.os == 'Windows' && '3' || '1' }}
       - run: pnpm dist:${{ matrix.target }} --publish never
       - uses: actions/upload-artifact@v4
         with:
