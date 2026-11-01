@@ -50,6 +50,8 @@ win:
       arch: [x64]
   signAndEditExecutable: false
 nsis:
+  # 默认名「Twiq Setup x.y.z.exe」带空格，上传到 GitHub Release 后空格会变成点；README 按这个名字写
+  artifactName: ${productName}-Setup-${version}.${ext}
   oneClick: false
   allowToChangeInstallationDirectory: true
   perMachine: false

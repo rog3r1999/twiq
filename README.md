@@ -1,106 +1,106 @@
 # Twiq
 
-**English** · [简体中文](README.zh-CN.md)
+[English](README.md) · **简体中文**
 
-*Twiq* (pronounced like "tweak") is a desktop editor for local HTML files. Click on the rendered page to edit text; saving patches only the characters you changed, and the rest of the file stays byte-for-byte identical.
+**Twiq**（读音同 tweak，「微调」）：打开本地 HTML 文件，在渲染好的页面上直接点击修改文字；保存时只改动被改的那几个字符，文件其余部分一字节不变。
 
-It is built for touching up static pages such as AI-generated landing pages, reports and slide decks: no hunting for strings in the source, and no WYSIWYG round-trip that reformats the whole file.
+适合修改 AI 生成的落地页、报告、幻灯片等静态页面：不用在源码里找字，也不会因为「所见即所得」把整份文件重新格式化。
 
-![Twiq after two edits: the Changes tab lists both, and says 1,881 of 1,881 original characters are untouched](docs/screenshot.png)
+![改了两处之后：右侧「改动」页列出这两处，并写明 1,432 个字符里 1,432 个原样保留](docs/screenshot.zh-CN.png)
 
-The interface is in English and Simplified Chinese and follows your system language (**View › Language** to switch).
+界面有简体中文与英文，默认跟随系统语言（「查看 › 语言」切换）。
 
-## Features
+## 功能
 
-- **Edit in place** — click to select, click again to edit the text; Enter or Esc to finish. Undo and redo work on patches.
-- **Minimal-diff saving** — indentation, attribute order, entity spelling, BOM and line endings are preserved.
-- **See every change** — the **Changes** tab lists what you changed since the last save (with line numbers and context), jumps to it on the page, and can revert a single change. Saving tells you how many characters stayed untouched.
-- **Structure editing** — select any block to delete, duplicate, reorder by drag and drop, move freely, resize with snapping, or multi-select.
-- **Property panel** — text color, background, font size and weight, line height, alignment, padding, corners, size; replace an image; edit any element's source with live preview; structured SVG editing.
-- **Works with your AI tools** — **Copy for AI** puts the element's source together with its file path, line numbers and a CSS selector on the clipboard, so an assistant changes only that part. When the assistant saves the file, Twiq reloads it and three-way merges your unsaved edits.
-- **Files** — multiple tabs, external-change detection, insert image / video / audio, export to PDF / Markdown / plain text.
-- **Sandboxed preview** — pages load through a private `hw://` protocol and cannot read files outside their own folder unless you allow it.
-- Light and dark appearance, following the system by default.
+- **就地改字**：单击选中，再点一次改字；Enter / Esc 完成，撤销重做按补丁进行。
+- **最小改动保存**：保留原文件的缩进、属性顺序、实体写法、BOM 与换行风格。
+- **看得见每一处改动**：属性面板的「改动」页列出上次保存以来改了哪些地方（带行号与上下文），点一条在页面上定位，可以只撤回其中一处；保存时告诉你多少字符原样保留。
+- **结构编辑**：选中任意块，删除、复制、拖放换位、自由移动、缩放手柄与吸附对齐、多选。
+- **属性面板**：文字颜色、背景、字号、字重、行距、对齐、内边距、圆角、尺寸；替换图片；任意元素编辑源码（输入即预览）；SVG 结构化编辑。
+- **和 AI 工具配合**：「复制给 AI」把元素源码连同文件路径、行号、CSS 选择器放进剪贴板，让 AI 助手只改这一段；AI 改完保存文件，Twiq 自动载入，你有未保存的修改时三方合并。
+- **文件**：多标签页、外部修改检测、插入图片 / 视频 / 音频、导出 PDF / Markdown / 纯文本。
+- **安全预览**：页面在独立的 `hw://` 协议下加载，未经允许不能读取所在目录之外的文件。
+- 浅色 / 深色外观，默认跟随系统。
 
-Not supported: pages whose content is rendered in the browser by React, Vue and the like (you get a one-time notice, and script-generated text is not editable); files that are not UTF-8 or that mix line-ending styles (opened read-only).
+不支持的情况：正文由 React、Vue 等在浏览器端渲染的页面（打开时提示一次，脚本生成的文字不能改）；非 UTF-8 编码或换行风格混杂的文件（只读打开）。
 
-## FAQ
+## 常见问题
 
-**Will Twiq reformat my file?** No. Twiq never re-serializes the HTML. Every edit becomes a patch over the exact characters that changed; the Changes tab shows them before you save.
+**会把我的文件重新排版吗？** 不会。Twiq 从不重新序列化 HTML，每次修改都是只覆盖改动字符的补丁；保存前可以在「改动」页逐处核对。
 
-**Does it send anything over the network?** No. Twiq has no account, no telemetry and no update check. Pages you open may load their own remote resources (fonts, images) as they would in a browser; links open in your browser only after you confirm.
+**会联网发送什么吗？** 不会。没有账号、没有统计上报、不检查更新。打开的页面自己引用的远程资源（字体、图片）会像在浏览器里一样加载；链接要你确认后才交给系统浏览器打开。
 
-**Where are settings stored?** In `settings.json` under the app data folder: `~/Library/Application Support/Twiq/` on macOS, `%APPDATA%\Twiq\` on Windows. Delete it to reset.
+**设置存在哪里？** 应用数据目录下的 `settings.json`：macOS 是 `~/Library/Application Support/Twiq/`，Windows 是 `%APPDATA%\Twiq\`。删掉即恢复默认。
 
-**Which pages work best?** Static pages where the text is in the HTML source: AI-generated landing pages, reports, HTML slide decks, documentation. [docs/spec.md](docs/spec.md) appendix A has writing guidelines you can give an AI.
+**什么样的页面最合适？** 文字写在 HTML 源码里的静态页面：AI 生成的落地页、报告、HTML 幻灯片、文档。[docs/spec.md](docs/spec.md) 附录 A 有可以直接交给 AI 的写法约束。
 
-## Requirements
+## 环境依赖
 
-| | Version | Notes |
+| | 版本 | 说明 |
 |---|---|---|
-| OS | macOS (Apple silicon or Intel) or Windows 10/11 x64 | Linux may run in development mode but is not tested or packaged |
-| Node.js | 24 or newer | CI uses 24; also verified on 26 |
-| pnpm | 10 | `npm install -g pnpm@10` (or `corepack enable` on Node 24, which still ships corepack) |
-| Git | any recent | |
-| Network | access to GitHub on first install | `pnpm install` downloads the Electron binary (~100 MB). Behind a proxy add `NODE_USE_ENV_PROXY=1`; to use a mirror set `ELECTRON_MIRROR` |
+| 操作系统 | macOS（Apple 芯片或 Intel）或 Windows 10/11 x64 | Linux 也许能跑开发模式，但没有测试、也不打包 |
+| Node.js | 24 或更新 | CI 用 24；26 也验证过 |
+| pnpm | 10 | `npm install -g pnpm@10`（Node 24 自带 corepack，也可以 `corepack enable`） |
+| Git | 较新版本即可 | |
+| 网络 | 首次安装需要能访问 GitHub | `pnpm install` 会下载 Electron 二进制（约 100 MB）。有代理时加 `NODE_USE_ENV_PROXY=1`；用镜像可设 `ELECTRON_MIRROR` |
 
-No Xcode, Visual Studio or Python is needed: there are no native modules.
+不需要 Xcode、Visual Studio 或 Python：项目没有原生模块。
 
-## Build and run from source
+## 从源码构建与运行
 
 ```bash
-git clone <repository-url> twiq
+git clone <仓库地址> twiq
 cd twiq
-npm install -g pnpm@10        # once per machine, if pnpm is not installed
+npm install -g pnpm@10        # 没装 pnpm 时，每台机器执行一次
 pnpm install
 
-pnpm dev                      # development mode with hot reload
-pnpm build && pnpm start      # run the production build
-pnpm build && npx electron . path/to/page.html   # open a specific file
+pnpm dev                      # 开发模式（热更新）
+pnpm build && pnpm start      # 运行构建产物
+pnpm build && npx electron . path/to/page.html   # 直接打开某个文件
 ```
 
-### Packaging
+### 打包
 
 ```bash
-pnpm dist:mac                 # release/<version>/: dmg and zip, arm64 and x64
-pnpm dist:win                 # release/<version>/: NSIS installer and zip, x64
+pnpm dist:mac                 # release/<版本>/ 下的 dmg、zip（arm64 与 x64）
+pnpm dist:win                 # release/<版本>/ 下的 NSIS 安装包与 zip（x64）
 ```
 
-Run `dist:win` on Windows. On macOS only the zip can be built (`npx electron-builder --win zip`); the NSIS installer needs Wine there. Installers are unsigned: on macOS, right-click the app in Finder and choose **Open** the first time.
+`dist:win` 请在 Windows 上执行。在 macOS 上只能打 zip（`npx electron-builder --win zip`），NSIS 安装包需要 Wine。安装包未签名，macOS 首次打开需在「访达」里右键 → 打开。
 
-## Tests
+## 测试
 
 ```bash
-pnpm check                    # type check + lint + unit tests (Vitest)
-pnpm test:e2e                 # end-to-end tests (Playwright drives the real Electron app; windows will open)
-pnpm screens [dir]            # screenshots of the key UI states for visual review (HW_LANG=en, HW_THEME=dark)
-pnpm coverage                 # how much text in tests/fixtures/real*/ is directly editable (rendered)
-pnpm coverage:static          # same, from source only
+pnpm check                    # 类型检查 + lint + 单元测试（Vitest）
+pnpm test:e2e                 # 端到端测试（Playwright 驱动真实 Electron 应用，会弹出窗口）
+pnpm screens [目录]            # 截关键界面状态，用于目视检查（HW_LANG=en 英文、HW_THEME=dark 深色）
+pnpm coverage                 # 可编辑覆盖率（渲染版）：tests/fixtures/real*/ 样本里有多少文字能直接改
+pnpm coverage:static          # 同上，静态版，只解析源码
 ```
 
-## Project layout
+## 目录
 
 ```
-docs/spec.md        Product and technical spec (the v0.1 design basis; "规格 x.y" in code comments refers to its sections)
-src/main/           Main process: parsing, host rules, patching, document state, structural ops, three-way merge,
-                    hw:// protocol, tabs, workspace, menus, IPC, file watching, settings, preview freezing
-src/preload/        shell.ts: shell preload; preview.ts: editing layer in the page; select.ts: selection and dragging; overlay/
-src/renderer/       App shell (React)
-src/shared/         Shared types, UI strings (zh / en), positioning and snapping
-design/tokens.json  Design tokens; `pnpm tokens` generates src/renderer/src/tokens.css
-build/              App icon (icon.svg is the design source)
-tests/              unit/, e2e/, fixtures/
-resources/          Sample document
+docs/spec.md        产品与技术规格（v0.1 的设计依据；代码注释里的「规格 x.y」指这里的章节）
+src/main/           主进程：解析、host 判定、补丁、文档状态、结构操作、三方合并、hw:// 协议、标签页、
+                    工作区、菜单、IPC、文件监听、设置、拖动面板时冻结预览
+src/preload/        shell.ts：外壳 preload；preview.ts：预览页的编辑层；select.ts：选择与拖动；overlay/：叠加层
+src/renderer/       应用外壳（React）
+src/shared/         共享类型、界面文案（中英）、定位与吸附算法
+design/tokens.json  设计 token，pnpm tokens 生成 src/renderer/src/tokens.css
+build/              应用图标（icon.svg 是设计源）
+tests/              unit/ 单元测试，e2e/ 端到端测试，fixtures/ 测试页面
+resources/          示例文档
 ```
 
-## Releases
+## 版本
 
-See [CHANGELOG.md](CHANGELOG.md). Pushing a `vX.Y.Z` tag builds the macOS and Windows installers and drafts a GitHub Release (`.github/workflows/release.yml`).
+见 [CHANGELOG.md](CHANGELOG.md)。推送 `vX.Y.Z` 标签会打出 macOS 与 Windows 安装包并生成 GitHub Release 草稿（`.github/workflows/release.yml`）。
 
-## Contributing
+## 参与
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) (in Chinese). Third-party licenses are listed in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+见 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [AGENTS.md](AGENTS.md)。第三方许可见 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)；与 Tencent/page-harness 的对比见 [docs/compare-page-harness.md](docs/compare-page-harness.md)。
 
-## License
+## 许可
 
 [MIT](LICENSE) © 2026 Roger Luo
