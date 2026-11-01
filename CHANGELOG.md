@@ -5,6 +5,38 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each release is an annotated git tag `vX.Y.Z` matching `package.json`; pushing the tag builds the installers and drafts a GitHub Release.
 
+1.0.0 是首个公开发布的版本。下面的 0.x 是开源前的开发版本，留作功能演进的记录，没有对应的标签和安装包。
+1.0.0 is the first public release. The 0.x entries below are pre-release development versions, kept as a record; they have no tags or installers.
+
+## 1.0.0 — 2026-11-01
+
+**AI 写的 HTML，点一下就改。Edit AI-written HTML with a click.**
+
+首个公开版本，免费、开源（MIT）。打开本地 HTML 文件，在页面上直接改文字、调样式、换位置、删掉一块；保存时只改动被改的字符，其余一字节不变。功能与 0.10.0 相同，本版只改了打包与文档。
+
+The first public release, free and open source (MIT). Same features as 0.10.0; this release changes packaging and documentation only.
+
+### 下载 / Download
+
+| 系统 / System | 文件 / File |
+|---|---|
+| macOS，Apple 芯片 / Apple silicon | `Twiq-1.0.0-arm64.dmg` |
+| macOS，Intel | `Twiq-1.0.0.dmg` |
+| Windows 10 / 11 x64 | `Twiq-Setup-1.0.0.exe` |
+
+macOS 安装包未经 Apple 公证：第一次打开被拦下后，到「系统设置 › 隐私与安全性」点「仍要打开」。Windows 出现「Windows 已保护你的电脑」时点「更多信息 › 仍要运行」。详见 [README](https://github.com/rog3r1999/twiq#下载安装)。
+
+The macOS app is not notarized: after the first launch is blocked, click **Open Anyway** in **System Settings › Privacy & Security**. On Windows, click **More info › Run anyway**. See the [README](https://github.com/rog3r1999/twiq/blob/main/README.en.md#download).
+
+### 打包 / Packaging
+- macOS 安装包改为 ad-hoc 签名。此前跳过签名后，Electron 自带的签名被打包过程破坏，下载后在 Apple 芯片上会被报「已损坏」。
+- Windows 安装包固定命名为 `Twiq-Setup-x.y.z.exe`。
+- 端到端测试在 Windows 上也跑一遍；发版时每个系统先跑通端到端测试再打包。仓库关掉了换行符转换，Windows 上检出的文件和仓库里逐字节一致。
+
+### 文档 / Docs
+- README 以中文为首页（英文见 README.en.md），新增下载安装、首次打开步骤、截图与宣传片片段。
+- 新增示例幻灯片 `docs/demo/q3-review.html`，可以下载后用 Twiq 打开试改。
+
 ## 0.10.0 — 2026-10-29
 
 **Make the minimal diff visible, speak English, and hand off to AI cleanly.**

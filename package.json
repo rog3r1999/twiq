@@ -1,7 +1,7 @@
 {
   "name": "twiq",
   "productName": "Twiq",
-  "version": "0.10.0",
+  "version": "1.0.0",
   "description": "打开本地 HTML，在页面上直接改文字；保存时只改动被改的字符。",
   "author": "Roger Luo",
   "license": "MIT",
