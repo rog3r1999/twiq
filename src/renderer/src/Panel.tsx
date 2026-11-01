@@ -825,28 +825,48 @@ function useResize(saved: number) {
     }
     finishDrag()
   }, [])
+  /** 拖动中：直接改 DOM 宽度，只让工具栏那一行百分比跟着变，不重渲染整块面板（v0.9.1） */
+  const live = useCallback((next: number) => {
+    if (host.current) host.current.style.width = `${next}px`
+    useStore.getState().setDragFit(previewLayout(next).fit)
+  }, [])
+  // 拖动中的移动与松手都在 window 上接，不靠手柄上的指针捕获：Windows 上冻结画面生效、预览视图被隐藏时，
+  // 手柄会丢掉指针捕获（lostpointercapture），之后的移动落到预览区或面板上，手柄自己收不到，面板停在半路（v1.0）。
   // 收不到松手的情况（指针捕获被系统拿走、窗口被最小化）也要收尾，否则预览一直停在冻结画面上。
   // 不在单纯的 blur 上收尾：指针还在面板上时窗口失焦是正常的，拖动应当继续。
   useEffect(() => {
-    const end = (): void => stop()
+    const move = (e: PointerEvent): void => {
+      const d = drag.current
+      if (!d) return
+      // 按键已经松开却没有收到 pointerup（窗口失焦、系统吞了事件）：按松手处理
+      if (!dragging || e.buttons === 0) return stop()
+      d.live = clamp(d.w + d.x - e.clientX)
+      live(d.live)
+    }
+    // 松手：按松手的位置落定
+    const up = (e: PointerEvent): void => {
+      const d = drag.current
+      if (d) {
+        d.live = clamp(d.w + d.x - e.clientX)
+        live(d.live)
+      }
+      stop()
+    }
+    const cancel = (): void => stop()
     const hidden = (): void => {
       if (document.visibilityState === 'hidden') stop()
     }
-    // 放在冒泡阶段：手柄自己的 pointerup 先按精确位置落定，这里只是兜底
-    window.addEventListener('pointerup', end)
-    window.addEventListener('pointercancel', end)
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', cancel)
     document.addEventListener('visibilitychange', hidden)
     return () => {
-      window.removeEventListener('pointerup', end)
-      window.removeEventListener('pointercancel', end)
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', cancel)
       document.removeEventListener('visibilitychange', hidden)
     }
-  }, [stop])
-  /** 拖动中：直接改 DOM 宽度，只让工具栏那一行百分比跟着变，不重渲染整块面板（v0.9.1） */
-  const live = (next: number) => {
-    if (host.current) host.current.style.width = `${next}px`
-    useStore.getState().setDragFit(previewLayout(next).fit)
-  }
+  }, [stop, live])
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return
     e.preventDefault()
@@ -855,24 +875,6 @@ function useResize(saved: number) {
     dragging = true
     dragSeq++
     void beginFreeze()
-  }
-  const onPointerMove = (e: React.PointerEvent) => {
-    const d = drag.current
-    if (!d) return
-    // 按键已经松开却没有收到 pointerup（窗口失焦、系统吞了事件）：按松手处理
-    if (!dragging || e.buttons === 0) return stop()
-    d.live = clamp(d.w + d.x - e.clientX)
-    live(d.live)
-  }
-  const onPointerUp = (e: React.PointerEvent) => {
-    const d = drag.current
-    if (!d) return
-    const next = clamp(d.w + d.x - e.clientX)
-    drag.current = null
-    live(next)
-    setW(next)
-    cmd({ type: 'panelWidth', width: next })
-    finishDrag()
   }
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
@@ -885,7 +887,7 @@ function useResize(saved: number) {
     setW(280)
     cmd({ type: 'panelWidth', width: 280 })
   }
-  return { w, host, handle: { onPointerDown, onPointerMove, onPointerUp, onPointerCancel: onPointerUp, onKeyDown, onDoubleClick } }
+  return { w, host, handle: { onPointerDown, onKeyDown, onDoubleClick } }
 }
 
 export function Panel({ app }: { app: AppState }) {

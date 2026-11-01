@@ -3,7 +3,7 @@
 import { expect, test, type ElectronApplication, type Page } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import { launch, preview, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 // 失败时留下现场：外壳截图、状态、拖动期间外壳收到的指针事件（Windows 上排查拖动中断用）
@@ -17,10 +17,7 @@ test.afterEach(async ({}, info) => {
     const fz = await freezeState(ctx.app).catch((e) => String(e))
     fs.writeFileSync(info.outputPath('pointer.json'), JSON.stringify({ freezeState: fz, state: st, events: log }, null, 1))
   }
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close().catch(() => {})
+  await quit(ctx)
 })
 
 async function setup(fixture: string) {
@@ -260,4 +257,22 @@ test('PP-07 松手事件丢了（指针捕获被抢走）：下一次移动就�
   await sleep(200)
   await expect(sh.locator('.freeze')).toHaveCount(0)
   await expect.poll(() => freezeState(ctx.app)).toBe('idle')
+})
+
+test('PP-08 拖动中手柄丢了指针捕获（Windows 上冻结后隐藏预览视图就会这样）：面板照样跟手，松手按最终位置落定', async () => {
+  const { sh } = await setup('large-1mb.html')
+  const h = await holdHandle(sh)
+  await sh.mouse.move(h.x - 60, h.y + 300, { steps: 4 })
+  await expect(sh.locator('.freeze img')).toBeVisible()
+  // 系统把手柄的指针捕获拿走：之后的移动落到预览区、面板这些别的元素上，按键仍按着
+  const lost = await sh.locator('.panel-resize').evaluate((el) => {
+    el.releasePointerCapture(1)
+    return !el.hasPointerCapture(1)
+  })
+  expect(lost).toBe(true)
+  await sh.mouse.move(h.x - 340, h.y + 300, { steps: 16 })
+  await sh.mouse.up()
+  await expect(sh.locator('.freeze')).toHaveCount(0)
+  // 默认宽度 280，往左拖了 340：面板约 620，不是停在丢掉捕获时的三百多
+  await waitFor(ctx.app, (s) => s.panelWidth > 560)
 })
