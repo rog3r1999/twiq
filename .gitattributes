@@ -1,0 +1,5 @@
+# 检出时不转换换行符，所有平台拿到的字节和仓库里一样。
+# 测试按字节比对文件（tests/fixtures/crlf.html、mixed-eol.html 本来就是 CRLF / 混合），
+# 示例页随安装包分发；Windows 上的 core.autocrlf=true（GitHub 的 Windows runner 默认如此）
+# 会把 LF 改成 CRLF，测试会因为错误的原因失败，Windows 安装包里的示例页也会被改掉。
+* -text
