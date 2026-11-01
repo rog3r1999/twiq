@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test'
 import path from 'node:path'
 import { clickAt, editing, launch, preview, quit, sleep, waitFor, workdir, ws, type Ctx } from './helpers'
 
-// 慢机器上的宽限系数：GitHub 的 Windows 虚拟机设为 3（见 ci.yml），同一份代码在那里的主进程提交从 150ms 到 520ms 不等，
-// 只用来拦住明显的退化。产品指标本身不变，本机与 macOS CI 按 1 检查
+// 慢机器上的宽限系数（见 ci.yml）：GitHub 的 Windows 虚拟机设为 3，同一份代码在那里的主进程提交从 150ms 到 520ms 不等；
+// macOS 虚拟机设为 2，主进程提交从 78ms 到 160ms 不等。只用来拦住明显的退化，产品指标本身不变，本机按 1 检查
 const slack = Number(process.env.HW_PERF_SLACK) || 1
 
 let ctx: Ctx | null = null

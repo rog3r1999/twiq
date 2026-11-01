@@ -40,7 +40,7 @@ jobs:
           [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
       - run: pnpm test:e2e
         env:
-          HW_PERF_SLACK: ${{ runner.os == 'Windows' && '3' || '1' }}
+          HW_PERF_SLACK: ${{ runner.os == 'Windows' && '3' || '2' }}
       - if: failure()
         uses: actions/upload-artifact@v4
         with: { name: 'e2e-results-${{ matrix.os }}', path: test-results }

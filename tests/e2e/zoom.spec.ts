@@ -40,6 +40,8 @@ for (const zoom of [125, 150]) {
     const minRun = 0.3 * css.w * css.dpr
     const capture = (): Promise<{ x0: number; y0: number; x1: number; y1: number; scale: number; png: string }> => ctx.app.evaluate(async (_e, minRun) => {
       const w = (globalThis as unknown as { __hw: { ws: { active: { view: Electron.WebContentsView } } } }).__hw.ws
+      // 先要求重绘：macOS CI 上 capturePage 有时拿到的是上一帧（状态已是改字，画面还是选中框）
+      w.active.view.webContents.invalidate()
       const img = await w.active.view.webContents.capturePage()
       const { width, height } = img.getSize()
       const bmp = img.toBitmap() // BGRA
@@ -66,21 +68,27 @@ for (const zoom of [125, 150]) {
       }
       return { x0, y0, x1, y1, scale: sw / width, png: img.toPNG().toString('base64') }
     }, minRun)
-    // 窗口失去焦点会提交并退出编辑（preview.ts 的 blur）。macOS CI 上偶尔截到选中框而不是编辑框（疑似别的窗口抢走焦点，blurs 记录次数）：
-    // 截图后确认仍在编辑，被打断就重新进入再截
+    // 截到的画面可能晚于状态：2 秒内反复截，直到出现编辑框（frames、waitMs 记录等了多久）。
+    // 窗口失去焦点会提交并退出编辑（preview.ts 的 blur），被打断就单击重新进入（interrupted、blurs 记录次数）
+    const t0 = Date.now()
     let box = await capture()
+    let frames = 1
     let interrupted = 0
-    while (!(await state(ctx.app)).editing && interrupted < 3) {
-      interrupted++
-      await enter(true)
+    while (box.x1 < 0 && Date.now() - t0 < 2000) {
+      if (!(await state(ctx.app)).editing && interrupted < 3) {
+        interrupted++
+        await enter(true)
+      } else await sleep(100)
       box = await capture()
+      frames++
     }
+    const waitMs = Date.now() - t0
     const blurs = await page.evaluate(() => (window as unknown as { __blurs: number }).__blurs)
     // 设备像素 = CSS 像素（已含页面缩放）× devicePixelRatio
     const k = css.dpr * box.scale
     // 留下现场：失败时随 test-results 一起上传，对照截图看编辑色像素落在哪里
     fs.writeFileSync(info.outputPath('preview.png'), Buffer.from(box.png, 'base64'))
-    fs.writeFileSync(info.outputPath('measure.json'), JSON.stringify({ css, box: { ...box, png: undefined }, k, interrupted, blurs }, null, 1))
+    fs.writeFileSync(info.outputPath('measure.json'), JSON.stringify({ css, box: { ...box, png: undefined }, k, frames, waitMs, interrupted, blurs }, null, 1))
     expect(box.x1).toBeGreaterThan(0)
     // 「文字」标签在框外左上方，所以只比较左、右、下三边；上边由标签决定
     const tol = 4 * k
