@@ -40,8 +40,17 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      # GitHub 的 Windows 虚拟机默认屏幕 1024×768：窗口会被限制在屏幕内、面板拖不到测试要的宽度、
+      # 编辑工具条翻到元素下方。先调到常见的 1920×1080，并把调整后的分辨率打进日志
+      - if: runner.os == 'Windows'
+        run: |
+          Set-DisplayResolution -Width 1920 -Height 1080 -Force
+          Add-Type -AssemblyName System.Windows.Forms
+          [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
       # 哪个系统的端到端测试没过，就不出那个系统的安装包
       - run: pnpm test:e2e
+        env:
+          HW_PERF_SLACK: ${{ runner.os == 'Windows' && '1.5' || '1' }}
       - run: pnpm dist:${{ matrix.target }} --publish never
       - uses: actions/upload-artifact@v4
         with:
