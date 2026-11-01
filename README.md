@@ -57,9 +57,10 @@
 
 ## 完整宣传片
 
-42 秒，有配乐。同一份幻灯片、同样 5 处修改：让 AI 整份重写，和在 Twiq 里点一下。
+同一份幻灯片、同样 5 处修改：让 AI 整份重写，和在 Twiq 里点一下。
 
-https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+https://github.com/user-attachments/assets/af39d106-a546-411b-a079-1198b7821826
+
 
 ## 截图
 
