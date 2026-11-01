@@ -12,9 +12,9 @@ Versions follow [Semantic Versioning](https://semver.org/). Each release is an a
 
 **AI 写的 HTML，点一下就改。Edit AI-written HTML with a click.**
 
-首个公开版本，免费、开源（MIT）。打开本地 HTML 文件，在页面上直接改文字、调样式、换位置、删掉一块；保存时只改动被改的字符，其余一字节不变。功能与 0.10.0 相同，本版只改了打包与文档。
+首个公开版本，免费、开源（MIT）。打开本地 HTML 文件，在页面上直接改文字、调样式、换位置、删掉一块；保存时只改动被改的字符，其余一字节不变。功能与 0.10.0 相同；本版加固了属性面板的拖动，其余改动在打包与文档。
 
-The first public release, free and open source (MIT). Same features as 0.10.0; this release changes packaging and documentation only.
+The first public release, free and open source (MIT). Same features as 0.10.0; this release hardens panel dragging and otherwise changes packaging and documentation.
 
 ### 下载 / Download
 
