@@ -28,9 +28,9 @@ macOS 安装包未经 Apple 公证：第一次打开被拦下后，到「系统�
 
 The macOS app is not notarized: after the first launch is blocked, click **Open Anyway** in **System Settings › Privacy & Security**. On Windows, click **More info › Run anyway**. See the [README](https://github.com/rog3r1999/twiq/blob/main/README.en.md#download).
 
-### 修复 / Fixes
-- Windows：打开大文档时拖动属性面板的左边缘，面板拖一点就停下、不再跟着鼠标。冻结画面生效时系统收回了手柄的指针捕获，之后的移动落到别的元素上；现在拖动在整个窗口上跟踪。
-- Windows: dragging the property panel's edge on a large document stopped following the mouse after a moment. Dragging is now tracked on the whole window.
+### 加固 / Hardening
+- 拖动属性面板边缘时，移动与松手在整个窗口上跟踪，不只靠手柄的指针捕获：捕获被系统收回时，面板也继续跟着鼠标。
+- Dragging the property panel's edge is tracked on the whole window, so it keeps following the mouse even if the handle loses pointer capture.
 
 ### 打包 / Packaging
 - macOS 安装包改为 ad-hoc 签名。此前跳过签名后，Electron 自带的签名被打包过程破坏，下载后在 Apple 芯片上会被报「已损坏」。

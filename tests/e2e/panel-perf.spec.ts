@@ -259,7 +259,7 @@ test('PP-07 松手事件丢了（指针捕获被抢走）：下一次移动就�
   await expect.poll(() => freezeState(ctx.app)).toBe('idle')
 })
 
-test('PP-08 拖动中手柄丢了指针捕获（Windows 上冻结后隐藏预览视图就会这样）：面板照样跟手，松手按最终位置落定', async () => {
+test('PP-08 拖动中手柄丢了指针捕获：面板照样跟手，松手按最终位置落定', async () => {
   const { sh } = await setup('large-1mb.html')
   const h = await holdHandle(sh)
   await sh.mouse.move(h.x - 60, h.y + 300, { steps: 4 })
@@ -274,5 +274,17 @@ test('PP-08 拖动中手柄丢了指针捕获（Windows 上冻结后隐藏预览
   await sh.mouse.up()
   await expect(sh.locator('.freeze')).toHaveCount(0)
   // 默认宽度 280，往左拖了 340：面板约 620，不是停在丢掉捕获时的三百多
+  await waitFor(ctx.app, (s) => s.panelWidth > 560)
+})
+
+test('PP-09 拖动中别处收到一次「没按键」的移动（Windows 按真实光标补发的那种）：不当作松手，拖动继续', async () => {
+  const { sh } = await setup('large-1mb.html')
+  const h = await holdHandle(sh)
+  await sh.mouse.move(h.x - 60, h.y + 300, { steps: 4 })
+  await expect(sh.locator('.freeze img')).toBeVisible()
+  await sh.locator('.preview').dispatchEvent('pointermove', { clientX: 300, clientY: 300, buttons: 0, pointerId: 1 })
+  await sh.mouse.move(h.x - 340, h.y + 300, { steps: 16 })
+  await sh.mouse.up()
+  await expect(sh.locator('.freeze')).toHaveCount(0)
   await waitFor(ctx.app, (s) => s.panelWidth > 560)
 })

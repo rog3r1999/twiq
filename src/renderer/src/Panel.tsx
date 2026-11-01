@@ -830,16 +830,22 @@ function useResize(saved: number) {
     if (host.current) host.current.style.width = `${next}px`
     useStore.getState().setDragFit(previewLayout(next).fit)
   }, [])
-  // 拖动中的移动与松手都在 window 上接，不靠手柄上的指针捕获：Windows 上冻结画面生效、预览视图被隐藏时，
-  // 手柄会丢掉指针捕获（lostpointercapture），之后的移动落到预览区或面板上，手柄自己收不到，面板停在半路（v1.0）。
+  // 拖动中的移动与松手都在 window 上接，不只靠手柄上的指针捕获：捕获被收走后，移动落到预览区或面板上，
+  // 手柄自己收不到，面板会停在半路（v1.0）。
   // 收不到松手的情况（指针捕获被系统拿走、窗口被最小化）也要收尾，否则预览一直停在冻结画面上。
   // 不在单纯的 blur 上收尾：指针还在面板上时窗口失焦是正常的，拖动应当继续。
   useEffect(() => {
     const move = (e: PointerEvent): void => {
       const d = drag.current
       if (!d) return
-      // 按键已经松开却没有收到 pointerup（窗口失焦、系统吞了事件）：按松手处理
-      if (!dragging || e.buttons === 0) return stop()
+      if (!dragging) return stop()
+      if (e.buttons === 0) {
+        // 按键已经松开却没有收到 pointerup（窗口失焦、系统吞了事件）：按松手处理。
+        // 只认手柄自己收到的：捕获还在时真实的移动都落在手柄上。落到别处的「没按键」不一定是这根指针——
+        // Windows 上窗口内容变化时，系统会按真实光标补发一次移动，CI 用合成事件拖动时它就是「没按键」
+        if (e.target instanceof Element && e.target.classList.contains('panel-resize')) stop()
+        return
+      }
       d.live = clamp(d.w + d.x - e.clientX)
       live(d.live)
     }
