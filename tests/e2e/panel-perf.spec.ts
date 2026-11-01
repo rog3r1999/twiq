@@ -1,11 +1,22 @@
 // v0.9.1 性能专项：拖动属性面板时，大文档不再逐帧重排预览页——外壳显示冻结画面、按帧跟手，
 // 松手后主进程按最终尺寸重排，画好第一帧再换回实时页面。
 import { expect, test, type ElectronApplication, type Page } from '@playwright/test'
+import fs from 'node:fs'
 import path from 'node:path'
 import { launch, preview, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
-test.afterEach(async () => {
+// 失败时留下现场：外壳截图、状态、拖动期间外壳收到的指针事件（Windows 上排查拖动中断用）
+// eslint-disable-next-line no-empty-pattern
+test.afterEach(async ({}, info) => {
+  if (ctx && info.status !== info.expectedStatus) {
+    const sh = await shell(ctx.app)
+    await sh.screenshot({ path: info.outputPath('shell.png') }).catch(() => {})
+    const log = await sh.evaluate(() => (window as unknown as { __ptr?: unknown[] }).__ptr ?? []).catch((e) => [String(e)])
+    const st = await state(ctx.app).catch((e) => String(e))
+    const fz = await freezeState(ctx.app).catch((e) => String(e))
+    fs.writeFileSync(info.outputPath('pointer.json'), JSON.stringify({ freezeState: fz, state: st, events: log }, null, 1))
+  }
   await ctx?.app.evaluate(() => {
     ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
   })
@@ -19,7 +30,27 @@ async function setup(fixture: string) {
   await ws(ctx.app, 'setMode', 'select')
   await waitFor(ctx.app, (s) => s.tabs[0].mode === 'edit')
   await sleep(400)
-  return { page, sh: await shell(ctx.app) }
+  const sh = await shell(ctx.app)
+  // 记下外壳收到的指针事件（捕获阶段，先于应用自己的处理），失败时写进 pointer.json
+  await sh.evaluate(() => {
+    const log: unknown[] = []
+    ;(window as unknown as { __ptr: unknown[] }).__ptr = log
+    const t0 = performance.now()
+    let moves = 0
+    for (const type of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'gotpointercapture', 'lostpointercapture', 'blur', 'visibilitychange']) {
+      window.addEventListener(
+        type,
+        (e) => {
+          const p = e as PointerEvent
+          if (type === 'pointermove' && ++moves % 4 !== 1) return
+          const el = e.target instanceof Element ? e.target.className : String(e.target)
+          log.push({ t: Math.round(performance.now() - t0), type, x: p.clientX, buttons: p.buttons, target: el, moves })
+        },
+        true
+      )
+    }
+  })
+  return { page, sh }
 }
 
 interface Counters {

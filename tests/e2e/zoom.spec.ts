@@ -14,7 +14,8 @@ test.afterEach(async () => {
 })
 
 for (const zoom of [125, 150]) {
-  test(`A9 缩放 ${zoom}%：编辑框与元素对齐`, async () => {
+  // eslint-disable-next-line no-empty-pattern
+  test(`A9 缩放 ${zoom}%：编辑框与元素对齐`, async ({}, info) => {
     const dir = workdir('basic.html')
     const settings = path.join(dir, 'settings.json')
     fs.writeFileSync(settings, JSON.stringify({ zoom }))
@@ -44,10 +45,13 @@ for (const zoom of [125, 150]) {
             x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y)
           }
         }
-      return { x0, y0, x1, y1, scale: sw / width }
+      return { x0, y0, x1, y1, scale: sw / width, png: img.toPNG().toString('base64') }
     })
     // 设备像素 = CSS 像素（已含页面缩放）× devicePixelRatio
     const k = css.dpr * box.scale
+    // 留下现场：失败时随 test-results 一起上传，对照截图看编辑色像素落在哪里
+    fs.writeFileSync(info.outputPath('preview.png'), Buffer.from(box.png, 'base64'))
+    fs.writeFileSync(info.outputPath('measure.json'), JSON.stringify({ css, box: { ...box, png: undefined }, k }, null, 1))
     expect(box.x1).toBeGreaterThan(0)
     // 「文字」标签在框外左上方，所以只比较左、右、下三边；上边由标签决定
     const tol = 4 * k
