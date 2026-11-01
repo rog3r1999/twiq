@@ -1,4 +1,5 @@
-# 每次推送与 PR：类型检查、lint、单元测试（Ubuntu）；端到端测试与打包冒烟（macOS）。
+# 每次推送与 PR：类型检查、lint、单元测试（Ubuntu）；单元测试与端到端测试（macOS、Windows）；
+# Windows 再打一次安装包，作为构建产物上传，发版前可以下载到真机上装一遍。
 name: ci
 on:
   push:
@@ -15,15 +16,30 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
   e2e:
-    runs-on: macos-14
     needs: check
+    strategy:
+      # 一个系统失败时另一个照样跑完，两边的结果都看得到
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      # 单元测试里 Windows 路径的分支只有在 Windows 上才走真实的 path.win32
+      - run: pnpm test
       - run: pnpm test:e2e
       - if: failure()
         uses: actions/upload-artifact@v4
-        with: { name: e2e-results, path: test-results }
+        with: { name: 'e2e-results-${{ matrix.os }}', path: test-results }
+      - if: runner.os == 'Windows'
+        run: pnpm dist:win --publish never
+      - if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: release/*/*.exe
+          if-no-files-found: error

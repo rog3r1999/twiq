@@ -1,5 +1,5 @@
-# 推送 v* 标签：校验版本号与更新记录 → 检查 → macOS 与 Windows 各自打包 → 生成 Release 草稿（附安装包）。
-# 草稿由维护者确认后手动发布；安装包未签名（见 README「打包」）。
+# 推送 v* 标签：校验版本号与更新记录 → 检查 → macOS 与 Windows 各自跑端到端测试再打包 → 生成 Release 草稿（附安装包）。
+# 草稿由维护者确认后手动发布；macOS 安装包 ad-hoc 签名、未公证，Windows 安装包未签名（见 README「下载安装」）。
 name: release
 on:
   push:
@@ -40,6 +40,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      # 哪个系统的端到端测试没过，就不出那个系统的安装包
+      - run: pnpm test:e2e
       - run: pnpm dist:${{ matrix.target }} --publish never
       - uses: actions/upload-artifact@v4
         with:

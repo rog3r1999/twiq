@@ -45,7 +45,10 @@ docs | chore | refactor | perf | build | ci | release
 
 界面文字只写在文案表里并同时给出中英两份（见 AGENTS.md），单元测试会拦住表外的中文字面量。
 
-CI（`.github/workflows/ci.yml`）在推送到 `main` 与 PR 时运行同样的检查。
+CI（`.github/workflows/ci.yml`）在推送到 `main` 与 PR 时运行同样的检查，端到端测试在 macOS 与 Windows 上各跑一遍；Windows 还会打一次安装包，作为构建产物上传（Actions 页面里的 `windows-installer`），可以下载到真机上装一遍。
+发版时（`release.yml`）每个系统也是先跑通端到端测试再打包。
+
+仓库的 `.gitattributes` 关掉了换行符转换：测试按字节比对文件，Windows 上默认的 `core.autocrlf=true` 会让它们因为错误的原因失败。
 
 ## 测试写法
 
