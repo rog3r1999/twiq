@@ -1,8 +1,12 @@
-# Twiq
+<p align="center">
+  <img src="build/icon.svg" width="128" height="128" alt="Twiq icon: a dial whose pointer is the slash in &lt;/&gt;">
+</p>
 
-[简体中文](README.md) · **English**
+<h1 align="center">Twiq</h1>
 
-**Edit AI-written HTML with a click.**
+<p align="center"><b>Edit AI-written HTML with a click.</b></p>
+
+<p align="center"><a href="README.md">简体中文</a> · <b>English</b></p>
 
 *Twiq* (pronounced like "tweak") is a desktop editor for local HTML files. Click on the rendered page to edit it; saving patches only the characters you changed, and the rest of the file stays byte-for-byte identical.
 

@@ -1,8 +1,12 @@
-# Twiq
+<p align="center">
+  <img src="build/icon.svg" width="128" height="128" alt="Twiq 图标：一颗带刻度的旋钮，指针是 &lt;/&gt; 里的那根斜线">
+</p>
 
-**简体中文** · [English](README.en.md)
+<h1 align="center">Twiq</h1>
 
-**AI 写的 HTML，点一下就改。**
+<p align="center"><b>AI 写的 HTML，点一下就改。</b></p>
+
+<p align="center"><b>简体中文</b> · <a href="README.en.md">English</a></p>
 
 **Twiq**（读音同 tweak，「微调」）：打开本地 HTML 文件，在渲染好的页面上直接点击修改；保存时只改动被改的那几个字符，文件其余部分一字节不变。
 
