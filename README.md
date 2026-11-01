@@ -8,9 +8,11 @@
 
 用 AI 做的 PPT、报告、落地页，很多其实是一份 HTML。想改一个数字，要么翻源码找，要么让 AI 把整份重写一遍，还得担心它顺手改了别的地方。Twiq 让你直接在页面上改。
 
-[![宣传片片段：在 Twiq 里按意见改完一份 AI 写的幻灯片，19,376 个字符里只动了改的那几处](docs/media/twiq-demo.webp)](https://github.com/rog3r1999/twiq/releases/download/v1.0.0/Twiq-promo.mp4)
+![宣传片片段：在 Twiq 里按意见改完一份 AI 写的幻灯片，19,376 个字符里只动了改的那几处](docs/media/twiq-demo.webp)
 
-上面是宣传片里的 Twiq 片段，Twiq 的操作是真实录屏，未剪辑、未加速。点击画面观看完整宣传片（42 秒，有配乐）。
+上面是宣传片里的 Twiq 片段，Twiq 的操作是真实录屏，未剪辑、未加速。完整宣传片（42 秒，有配乐）：
+
+https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 
 界面有简体中文与英文，默认跟随系统语言（「查看 › 语言」切换）。
 

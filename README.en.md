@@ -8,9 +8,11 @@
 
 Many AI-made slide decks, reports and landing pages are really HTML files. To change one number you either dig through the source or ask the AI to rewrite the whole file and hope it leaves everything else alone. Twiq lets you edit right on the page.
 
-[![From the promo film: the edits on an AI-written slide deck done in Twiq, touching only the changed characters out of 19,376](docs/media/twiq-demo.webp)](https://github.com/rog3r1999/twiq/releases/download/v1.0.0/Twiq-promo.mp4)
+![From the promo film: the edits on an AI-written slide deck done in Twiq, touching only the changed characters out of 19,376](docs/media/twiq-demo.webp)
 
-This clip is from the promo film; the Twiq part is a real screen recording, uncut and at normal speed. Click it to watch the full film (42 s, with music; on-screen text is in Chinese).
+This clip is from the promo film; the Twiq part is a real screen recording, uncut and at normal speed. The full film (42 s, with music; on-screen text is in Chinese):
+
+https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 
 The interface is in English and Simplified Chinese and follows your system language (**View › Language** to switch).
 
