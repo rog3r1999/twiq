@@ -35,8 +35,10 @@ mac:
       arch: [arm64, x64]
     - target: zip
       arch: [arm64, x64]
-  # 代码签名与公证不在 v0.1 范围（12.1）
-  identity: null
+  # 没有 Developer ID 证书时做 ad-hoc 签名。identity: null 会跳过签名，打包时又改动了 Electron
+  # 原有的签名，下载后在 Apple 芯片上会被报「已损坏」；ad-hoc 签名后只提示无法验证开发者，
+  # 用户在「系统设置 › 隐私与安全性」里放行即可。公证需要 Developer ID
+  identity: '-'
   hardenedRuntime: false
 dmg:
   title: Twiq ${version}
