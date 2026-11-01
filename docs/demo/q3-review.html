@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>北辰数据 · 2026 Q3 季度复盘</title>
+  <style>
+    /* ===== 设计变量 ===== */
+    :root {
+      --bg: #E9ECF3;
+      --paper: #FFFFFF;
+      --ink: #0E1530;
+      --muted: #5B6478;
+      --faint: #9AA3B5;
+      --line: #E3E7EF;
+      --accent: #2F5BEA;
+      --accent-soft: #EAF0FF;
+      --teal: #0FA597;
+      --teal-soft: #E2F6F3;
+      --amber: #E39A12;
+      --radius: 1.4cqw;
+      --shadow: 0 0.2cqw 0.6cqw rgba(14, 21, 48, 0.06), 0 1.6cqw 4cqw rgba(14, 21, 48, 0.08);
+      --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-snap-type: y mandatory; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 0 64px;
+    }
+
+    /* ===== 幻灯片容器：16:9，按宽度等比缩放 ===== */
+    .slide {
+      container-type: inline-size;
+      position: relative;
+      width: min(92vw, calc((100vh - 64px) * 16 / 9));
+      aspect-ratio: 16 / 9;
+      margin: 0 auto 32px;
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      scroll-snap-align: center;
+    }
+
+    .slide-inner {
+      position: absolute;
+      inset: 0;
+      padding: 5.6cqw 6.4cqw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 页眉：小标签 + 页码 */
+    .slide-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3.2cqw;
+    }
+
+    .eyebrow {
+      font-size: 1.1cqw;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .page-no {
+      font-size: 1cqw;
+      color: var(--faint);
+      font-variant-numeric: tabular-nums;
+    }
+
+    h2.title {
+      font-size: 3.6cqw;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 1cqw;
+    }
+
+    .lead {
+      font-size: 1.45cqw;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 60cqw;
+    }
+
+    .foot {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95cqw;
+      color: var(--faint);
+      border-top: 1px solid var(--line);
+      padding-top: 1.2cqw;
+    }
+
+    /* ===== 第 1 页：封面 ===== */
+    .cover {
+      background:
+        radial-gradient(60cqw 40cqw at 85% 15%, rgba(47, 91, 234, 0.16), transparent 70%),
+        radial-gradient(50cqw 36cqw at 10% 100%, rgba(15, 165, 151, 0.14), transparent 70%),
+        var(--paper);
+    }
+
+    .cover .slide-inner { justify-content: center; }
+
+    .cover .brand {
+      display: flex;
+      align-items: center;
+      gap: 1cqw;
+      font-size: 1.3cqw;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 3cqw;
+    }
+
+    .brand-mark {
+      width: 2.6cqw;
+      height: 2.6cqw;
+      border-radius: 0.7cqw;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+    }
+
+    .cover h1 {
+      font-size: 7.2cqw;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .cover h1 .hl { color: var(--accent); }
+
+    .cover .subtitle {
+      font-size: 2cqw;
+      color: var(--muted);
+      margin-top: 1.8cqw;
+    }
+
+    .cover-art {
+      position: absolute;
+      right: 6.4cqw;
+      top: 50%;
+      width: 36cqw;
+      transform: translateY(-50%);
+    }
+
+    .cover-art svg { display: block; width: 100%; height: auto; }
+
+    .cover .meta {
+      position: absolute;
+      left: 6.4cqw;
+      bottom: 5cqw;
+      font-size: 1.1cqw;
+      color: var(--faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== 第 2 页：目录 ===== */
+    .agenda-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2cqw 3cqw;
+      margin-top: 2cqw;
+    }
+
+    .agenda-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 1.6cqw;
+      padding: 2.2cqw 2.4cqw;
+      border-radius: 1cqw;
+      background: #F7F8FC;
+      border: 1px solid var(--line);
+    }
+
+    .agenda-list .num {
+      font-size: 2.8cqw;
+      font-weight: 800;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .agenda-list .name {
+      font-size: 2cqw;
+      font-weight: 600;
+    }
+
+    .agenda-list .desc {
+      display: block;
+      font-size: 1.15cqw;
+      font-weight: 400;
+      color: var(--muted);
+      margin-top: 0.5cqw;
+    }
+
+    /* ===== 第 3 页：核心指标 ===== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1.1fr 0.9fr;
+      gap: 2cqw;
+      margin-top: 2.4cqw;
+    }
+
+    .kpi {
+      padding: 2.6cqw 2.4cqw;
+      border-radius: 1.2cqw;
+      background: #F7F8FC;
+      border: 1px solid var(--line);
+    }
+
+    .kpi.primary {
+      background: linear-gradient(160deg, var(--accent) 0%, #1E3FB8 100%);
+      color: #FFFFFF;
+      border: none;
+    }
+
+    .kpi .label {
+      font-size: 1.3cqw;
+      color: var(--muted);
+    }
+
+    .kpi.primary .label { color: rgba(255, 255, 255, 0.78); }
+
+    .kpi .value {
+      font-size: 6.4cqw;
+      white-space: nowrap;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 1.2cqw 0 0.8cqw;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi .value small {
+      font-size: 0.34em;
+      font-weight: 700;
+      margin-left: 0.2em;
+    }
+
+    .kpi .delta {
+      font-size: 1.15cqw;
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    .kpi.primary .delta { color: #BFF3EC; }
+
+    /* ===== 第 4 页：月度营收 ===== */
+    .chart-wrap {
+      display: grid;
+      grid-template-columns: 1fr 26cqw;
+      gap: 3cqw;
+      flex: 1;
+      margin-top: 1.6cqw;
+    }
+
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3.2cqw;
+      padding: 0 2cqw;
+      border-bottom: 2px solid var(--line);
+      height: 24cqw;
+    }
+
+    .bar {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.8cqw;
+      height: 100%;
+    }
+
+    .bar .amount {
+      font-size: 1.5cqw;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bar .col {
+      width: 100%;
+      border-radius: 0.8cqw 0.8cqw 0 0;
+      background: linear-gradient(180deg, #8FA9F6, var(--accent));
+    }
+
+    .bar.peak .col { background: linear-gradient(180deg, #4ED6C6, var(--teal)); }
+
+    .bar-labels {
+      display: flex;
+      gap: 3.2cqw;
+      padding: 1cqw 2cqw 0;
+    }
+
+    .bar-labels span {
+      flex: 1;
+      text-align: center;
+      font-size: 1.2cqw;
+      color: var(--muted);
+    }
+
+    .takeaway {
+      align-self: center;
+      padding: 2.4cqw;
+      border-radius: 1.2cqw;
+      background: var(--teal-soft);
+    }
+
+    .takeaway h3 {
+      font-size: 2cqw;
+      font-weight: 700;
+      margin-bottom: 1cqw;
+    }
+
+    .takeaway p {
+      font-size: 1.25cqw;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* ===== 第 5 页：增长来源 ===== */
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2cqw;
+      margin-top: 2.4cqw;
+    }
+
+    .source {
+      padding: 2.4cqw;
+      border-radius: 1.2cqw;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 0.4cqw 1.6cqw rgba(14, 21, 48, 0.05);
+    }
+
+    .source .icon {
+      width: 3.6cqw;
+      height: 3.6cqw;
+      border-radius: 1cqw;
+      display: grid;
+      place-items: center;
+      font-size: 1.8cqw;
+      margin-bottom: 1.6cqw;
+    }
+
+    .source .icon.blue { background: var(--accent-soft); color: var(--accent); }
+    .source .icon.teal { background: var(--teal-soft); color: var(--teal); }
+    .source .icon.amber { background: #FDF3DF; color: var(--amber); }
+
+    .source h3 {
+      font-size: 1.8cqw;
+      font-weight: 700;
+    }
+
+    .source .share {
+      font-size: 4.8cqw;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0.8cqw 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .source p {
+      font-size: 1.2cqw;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    /* ===== 第 6 页：产品进展 ===== */
+    .timeline {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.4cqw;
+      margin-top: 3cqw;
+      position: relative;
+    }
+
+    .timeline li {
+      position: relative;
+      padding-top: 3cqw;
+      border-top: 3px solid var(--accent);
+    }
+
+    .timeline li::before {
+      content: "";
+      position: absolute;
+      top: -0.9cqw;
+      left: 0;
+      width: 1.6cqw;
+      height: 1.6cqw;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 3px solid var(--accent);
+    }
+
+    .timeline .month {
+      font-size: 1.2cqw;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    .timeline h3 {
+      font-size: 2.1cqw;
+      font-weight: 700;
+      margin: 0.8cqw 0;
+    }
+
+    .timeline p {
+      font-size: 1.2cqw;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* ===== 第 7 页：Q4 计划 ===== */
+    .goals {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6cqw;
+      margin-top: 2.4cqw;
+    }
+
+    .goals li {
+      display: flex;
+      align-items: center;
+      gap: 2cqw;
+      padding: 1.8cqw 2.4cqw;
+      border-radius: 1.2cqw;
+      background: #F7F8FC;
+      border: 1px solid var(--line);
+    }
+
+    .goals .idx {
+      flex: none;
+      width: 3.6cqw;
+      height: 3.6cqw;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 1.6cqw;
+      font-weight: 800;
+    }
+
+    .goals .goal {
+      font-size: 1.9cqw;
+      font-weight: 700;
+    }
+
+    .goals .owner {
+      margin-left: auto;
+      font-size: 1.15cqw;
+      color: var(--muted);
+    }
+
+    /* ===== 第 8 页：结束页 ===== */
+    .end {
+      background: linear-gradient(150deg, #13235E 0%, var(--accent) 100%);
+      color: #FFFFFF;
+    }
+
+    .end .slide-inner {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .end h2 {
+      font-size: 8cqw;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .end p {
+      font-size: 1.8cqw;
+      margin-top: 1.6cqw;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    /* 右下角进度条 */
+    .progress {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 4px;
+      width: 0;
+      background: var(--accent);
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <!-- ========== 第 1 页：封面 ========== -->
+  <section class="slide cover" id="s1">
+    <div class="slide-inner">
+      <div class="brand"><span class="brand-mark"></span>北辰数据 · 经营分析</div>
+      <h1>2026 Q3<br><span class="hl">季度复盘</span></h1>
+      <p class="subtitle">增长、留存与下一步</p>
+      <div class="cover-art" aria-hidden="true">
+        <svg viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3F6FD"/></linearGradient>
+            <linearGradient id="g-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F5BEA" stop-opacity=".28"/><stop offset="1" stop-color="#2F5BEA" stop-opacity="0"/></linearGradient>
+          </defs>
+          <rect x="10" y="10" width="340" height="240" rx="18" fill="url(#g-card)" stroke="#E3E7EF"/>
+          <rect x="34" y="34" width="86" height="10" rx="5" fill="#E3E7EF"/>
+          <rect x="34" y="52" width="54" height="8" rx="4" fill="#EEF1F7"/>
+          <path d="M34 200 L92 172 L150 182 L208 132 L266 110 L326 64 L326 220 L34 220 Z" fill="url(#g-area)"/>
+          <path d="M34 200 L92 172 L150 182 L208 132 L266 110 L326 64" fill="none" stroke="#2F5BEA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="326" cy="64" r="8" fill="#FFFFFF" stroke="#0FA597" stroke-width="4"/>
+          <rect x="248" y="28" width="78" height="26" rx="13" fill="#E2F6F3"/>
+          <text x="287" y="46" text-anchor="middle" font-size="13" font-weight="700" fill="#0FA597">新高</text>
+        </svg>
+      </div>
+      <p class="meta">汇报人：运营中心　|　2026 年 10 月</p>
+    </div>
+  </section>
+
+  <!-- ========== 第 2 页：目录 ========== -->
+  <section class="slide" id="s2">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">Contents</span>
+        <span class="page-no">02 / 08</span>
+      </div>
+      <h2 class="title">今天聊四件事</h2>
+      <ul class="agenda-list">
+        <li><span class="num">01</span><span class="name">核心指标<span class="desc">营收、客户与续费</span></span></li>
+        <li><span class="num">02</span><span class="name">增长来源<span class="desc">新客户从哪里来</span></span></li>
+        <li><span class="num">03</span><span class="name">产品进展<span class="desc">本季度上线的三件事</span></span></li>
+        <li><span class="num">04</span><span class="name">Q4 计划<span class="desc">目标与负责人</span></span></li>
+      </ul>
+      <div class="foot"><span>2026 Q3 季度复盘</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 3 页：核心指标 ========== -->
+  <section class="slide" id="s3">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">01 · Key Metrics</span>
+        <span class="page-no">03 / 08</span>
+      </div>
+      <h2 class="title">Q3 核心指标</h2>
+      <p class="lead">三项核心指标全部超额完成，营收增速为近两年最高。</p>
+      <div class="kpi-grid">
+        <div class="kpi primary">
+          <div class="label">营收同比增长</div>
+          <div class="value" id="growth">38%</div>
+          <div class="delta">▲ 高于目标 8 个百分点</div>
+        </div>
+        <div class="kpi">
+          <div class="label">付费客户</div>
+          <div class="value">1,284<small>家</small></div>
+          <div class="delta">▲ 环比 +12%</div>
+        </div>
+        <div class="kpi">
+          <div class="label">续费率</div>
+          <div class="value">92%</div>
+          <div class="delta">▲ 环比 +3 个百分点</div>
+        </div>
+      </div>
+      <div class="foot"><span>数据截至 2026 年 9 月 30 日</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 4 页：月度营收 ========== -->
+  <section class="slide" id="s4">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">01 · Revenue</span>
+        <span class="page-no">04 / 08</span>
+      </div>
+      <h2 class="title">月度营收（万元）</h2>
+      <div class="chart-wrap">
+        <div>
+          <div class="bars">
+            <div class="bar"><span class="amount">1,820</span><div class="col" style="height: 62%"></div></div>
+            <div class="bar"><span class="amount">2,050</span><div class="col" style="height: 70%"></div></div>
+            <div class="bar peak"><span class="amount">2,460</span><div class="col" style="height: 84%"></div></div>
+          </div>
+          <div class="bar-labels"><span>7 月</span><span>8 月</span><span>9 月</span></div>
+        </div>
+        <div class="takeaway">
+          <h3>9 月单月创新高</h3>
+          <p>大客户续约集中在 9 月落地，单月营收环比增长 20%。</p>
+        </div>
+      </div>
+      <div class="foot"><span>2026 Q3 季度复盘</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 5 页：增长来源 ========== -->
+  <section class="slide" id="s5">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">02 · Growth</span>
+        <span class="page-no">05 / 08</span>
+      </div>
+      <h2 class="title">新客户从哪里来</h2>
+      <div class="source-grid" id="sources">
+        <div class="source" id="src-partner">
+          <div class="icon blue">◆</div>
+          <h3>渠道合作</h3>
+          <div class="share">46%</div>
+          <p>与三家区域服务商签约，覆盖华东与华南。</p>
+        </div>
+        <div class="source" id="src-search">
+          <div class="icon teal">●</div>
+          <h3>自然搜索</h3>
+          <div class="share">31%</div>
+          <p>内容与官网改版后，自然流量增长一倍。</p>
+        </div>
+        <div class="source" id="src-referral">
+          <div class="icon amber">▲</div>
+          <h3>老客推荐</h3>
+          <div class="share">23%</div>
+          <p>推荐计划上线首季，带来 295 家新客户。</p>
+        </div>
+      </div>
+      <div class="foot"><span>2026 Q3 季度复盘</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 6 页：产品进展 ========== -->
+  <section class="slide" id="s6">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">03 · Product</span>
+        <span class="page-no">06 / 08</span>
+      </div>
+      <h2 class="title">本季度上线的三件事</h2>
+      <ol class="timeline">
+        <li><span class="month">7 月</span><h3>数据看板 2.0</h3><p>自定义指标与分享链接，周活跃提升 34%。</p></li>
+        <li><span class="month">8 月</span><h3>智能预警</h3><p>异常波动自动提醒，平均提前 2 天发现问题。</p></li>
+        <li><span class="month">9 月</span><h3>开放 API</h3><p>首批 60 家客户接入，日调用量 120 万次。</p></li>
+      </ol>
+      <div class="foot"><span>2026 Q3 季度复盘</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 7 页：Q4 计划 ========== -->
+  <section class="slide" id="s7">
+    <div class="slide-inner">
+      <div class="slide-head">
+        <span class="eyebrow">04 · Q4 Plan</span>
+        <span class="page-no">07 / 08</span>
+      </div>
+      <h2 class="title">Q4 目标</h2>
+      <ul class="goals">
+        <li><span class="idx">1</span><span class="goal">季度营收突破 8,000 万</span><span class="owner">负责人：销售中心</span></li>
+        <li><span class="idx">2</span><span class="goal">新增 300 家付费客户</span><span class="owner">负责人：市场部</span></li>
+        <li><span class="idx">3</span><span class="goal">上线移动端看板</span><span class="owner">负责人：产品部</span></li>
+      </ul>
+      <div class="foot"><span>2026 Q3 季度复盘</span><span>北辰数据 · 经营分析</span></div>
+    </div>
+  </section>
+
+  <!-- ========== 第 8 页：结束页 ========== -->
+  <section class="slide end" id="s8">
+    <div class="slide-inner">
+      <h2>谢谢</h2>
+      <p>Q&amp;A · 欢迎提问</p>
+    </div>
+  </section>
+
+  <script>
+    // 键盘翻页：← → / PageUp PageDown
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var bar = document.getElementById('progress');
+      function current() {
+        var mid = window.innerHeight / 2, idx = 0;
+        slides.forEach(function (s, i) {
+          var r = s.getBoundingClientRect();
+          if (r.top <= mid) idx = i;
+        });
+        return idx;
+      }
+      function go(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        slides[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.target && e.target.isContentEditable) return;
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(current() + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current() - 1); }
+      });
+      window.addEventListener('scroll', function () {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+      });
+    })();
+  </script>
+</body>
+</html>

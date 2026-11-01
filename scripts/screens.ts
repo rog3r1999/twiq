@@ -185,7 +185,68 @@ async function main(): Promise<void> {
     await app.close()
   }
   await readmeShot(lang, theme, tmp)
+  await deckShots(lang, theme, tmp)
   fs.rmSync(tmp, { recursive: true, force: true })
+}
+
+/** README 截图（v1.0）：用 docs/demo/q3-review.html 走一遍「按意见改 AI 写的幻灯片」，复制到 docs/screenshots/ 用 */
+async function deckShots(lang: 'zh' | 'en', theme: string, tmp: string): Promise<void> {
+  const deck = path.join(tmp, 'q3-review.html')
+  fs.copyFileSync(path.join(ROOT, 'docs/demo/q3-review.html'), deck)
+  const settings = path.join(tmp, 'settings-deck.json')
+  fs.writeFileSync(settings, JSON.stringify({ lang, theme }))
+  const app = await electron.launch({
+    args: [ROOT],
+    env: { ...process.env, TWIQ_TEST: '1', TWIQ_MULTI_INSTANCE: '1', TWIQ_SETTINGS: settings, TWIQ_LANG: lang } as Record<string, string>
+  })
+  try {
+    await sleep(1200)
+    await call(app, 'openPath', deck)
+    const page = await preview(app)
+    const sh = app.windows().find((w) => !w.url().startsWith('hw://'))!
+    // 单击选中、再点一次改字；光标移到这段文字末尾，往回退 back 个字，删掉 remove 个字再输入
+    const retype = async (selector: string, back: number, remove: number, text: string): Promise<void> => {
+      const r = await page.locator(selector).first().boundingBox()
+      await page.mouse.click(r!.x + r!.width / 2, r!.y + r!.height / 2)
+      await sleep(200)
+      await page.mouse.click(r!.x + r!.width / 2, r!.y + r!.height / 2)
+      await sleep(200)
+      await page.keyboard.press(process.platform === 'darwin' ? 'Meta+ArrowDown' : 'Control+End')
+      for (let i = 0; i < back; i++) await page.keyboard.press('ArrowLeft')
+      for (let i = 0; i < remove; i++) await page.keyboard.press('Backspace')
+      await page.keyboard.type(text)
+    }
+
+    // 封面「季度复盘」改成「经营复盘」：只换「季度」两个字，<span class="hl"> 不能删空，否则算结构改动
+    await retype('#s1 h1', 2, 2, '经营')
+    await page.keyboard.press('Enter')
+    await sleep(250)
+
+    // 第 3 页：38% 改成 41%，停在编辑状态截一张
+    await page.locator('#s3').scrollIntoViewIfNeeded()
+    await sleep(500)
+    await retype('#growth', 0, 3, '41%')
+    await sleep(300)
+    await shot(app, '20-deck-editing')
+    // Enter 退出改字后元素仍选中，属性面板就是它的（再点一下会重新进入改字）
+    await page.keyboard.press('Enter')
+    await sleep(400)
+    await sh.mouse.move(5, 5)
+    await shot(app, '21-deck-props')
+
+    // 「改动」页：列出两处改动和原样保留的字符数
+    await sh.locator('.changes-btn').click()
+    await sleep(300)
+    await sh.locator('.ch-goto').last().click()
+    await sh.mouse.move(5, 5)
+    await sleep(400)
+    await shot(app, '22-deck-changes')
+  } finally {
+    await app.evaluate(() => {
+      ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
+    })
+    await app.close()
+  }
 }
 
 /** README 头图（v0.10）：新开一个窗口，干净的示例页改两处，打开「改动」页并定位到第一处。复制到 docs/ 用 */
