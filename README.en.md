@@ -53,7 +53,7 @@ One word changed on the cover and 38% changed to 41%: 19,372 of 19,376 character
 
 42 s, with music; on-screen text is in Chinese. The same deck and the same five edits: an AI rewriting the whole file, and a click in Twiq.
 
-https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+https://github.com/user-attachments/assets/af39d106-a546-411b-a079-1198b7821826
 
 ## Screenshots
 
