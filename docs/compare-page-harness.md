@@ -3,7 +3,7 @@
 对比对象：
 
 - page-harness **0.1.13**（[Tencent/page-harness](https://github.com/Tencent/page-harness) 提交 `83a6aae`，2026-10-29 克隆阅读）。
-- Twiq **0.9.1**（本仓库 `de8d028`）。
+- Twiq **0.9.1**（`de8d028`，开源前的提交，不在公开仓库的历史里）。
 
 下面每条结论都来自两边的源码或文档，括号里是出处。page-harness 的文件路径相对它的仓库根目录。
 
@@ -11,7 +11,7 @@
 
 | | page-harness | Twiq |
 |---|---|---|
-| 它是什么 | 把**正在运行的网页**变成编码 Agent 的工作台：页面上点选元素，交给本机的 Claude Code / Codex / Cursor 等 CLI 去改源码（`README.zh-CN.md`「概览」） | 打开**本地 HTML 文件**，在渲染好的页面上直接改；保存时只改动被改的字符（`README.zh-CN.md`） |
+| 它是什么 | 把**正在运行的网页**变成编码 Agent 的工作台：页面上点选元素，交给本机的 Claude Code / Codex / Cursor 等 CLI 去改源码（page-harness 的 `README.zh-CN.md`「概览」） | 打开**本地 HTML 文件**，在渲染好的页面上直接改；保存时只改动被改的字符（`README.md`） |
 | 谁改源码 | Agent。page-harness 自己不写源码；没有源码时的「直接改」只是浮层上的临时补丁，存进 `.page-harness/review.json`，不写回站点（`client/shared/patcher.ts`、README「评审模式」） | Twiq 自己，按字节写最小补丁（`src/main/patch.ts`、`docs/spec.md` 13.7） |
 | 用户 | 有 dev server 和 Agent CLI 的前端开发者，加上来评审的产品、设计、测试同事 | 不想（或不会）读源码的人：改 AI 生成的落地页、报告、HTML 幻灯片 |
 

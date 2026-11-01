@@ -1,14 +1,47 @@
 # Twiq
 
-**English** · [简体中文](README.zh-CN.md)
+[简体中文](README.md) · **English**
 
-*Twiq* (pronounced like "tweak") is a desktop editor for local HTML files. Click on the rendered page to edit text; saving patches only the characters you changed, and the rest of the file stays byte-for-byte identical.
+**Edit AI-written HTML with a click.**
 
-It is built for touching up static pages such as AI-generated landing pages, reports and slide decks: no hunting for strings in the source, and no WYSIWYG round-trip that reformats the whole file.
+*Twiq* (pronounced like "tweak") is a desktop editor for local HTML files. Click on the rendered page to edit it; saving patches only the characters you changed, and the rest of the file stays byte-for-byte identical.
 
-![Twiq after two edits: the Changes tab lists both, and says 1,881 of 1,881 original characters are untouched](docs/screenshot.png)
+Many AI-made slide decks, reports and landing pages are really HTML files. To change one number you either dig through the source or ask the AI to rewrite the whole file and hope it leaves everything else alone. Twiq lets you edit right on the page.
+
+[![From the promo film: the edits on an AI-written slide deck done in Twiq, touching only the changed characters out of 19,376](docs/media/twiq-demo.webp)](https://github.com/rog3r1999/twiq/releases/download/v1.0.0/Twiq-promo.mp4)
+
+This clip is from the promo film; the Twiq part is a real screen recording, uncut and at normal speed. Click it to watch the full film (42 s, with music; on-screen text is in Chinese).
 
 The interface is in English and Simplified Chinese and follows your system language (**View › Language** to switch).
+
+## Download
+
+Get the latest version from [Releases](https://github.com/rog3r1999/twiq/releases/latest). It is free and open source.
+
+| System | File |
+|---|---|
+| macOS, Apple silicon (M1 and later) | `Twiq-<version>-arm64.dmg` |
+| macOS, Intel | `Twiq-<version>.dmg` |
+| Windows 10 / 11 (x64) | `Twiq-Setup-<version>.exe` |
+
+**First launch on macOS.** The app is not notarized by Apple yet, so macOS blocks it the first time:
+
+1. Open the dmg and drag Twiq into **Applications**.
+2. Double-click Twiq in Applications. macOS says it cannot verify the developer; click **Done** (not **Move to Trash**).
+3. Open **System Settings › Privacy & Security**, scroll to **Security**, find the message about Twiq, click **Open Anyway** and confirm with your password.
+
+**First launch on Windows.** The installer is not code-signed. If you see "Windows protected your PC", click **More info › Run anyway**.
+
+**Try it on a sample**: download [docs/demo/q3-review.html](docs/demo/q3-review.html) (an 8-slide AI-written deck in Chinese, with a fictional company and numbers), open it in Twiq, change a few things and save.
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Editing a number on a slide: click to select, click again to edit](docs/screenshots/edit.en.png) | ![With an element selected, the property panel edits font size, weight, color and alignment](docs/screenshots/properties.en.png) |
+| Click to select, click again to edit the text | Property panel: font size, weight, color, alignment, spacing |
+| ![The Changes tab: 2 changes, 19,372 of 19,376 characters untouched](docs/screenshots/changes.en.png) | ![The built-in sample page after two edits, listed in the Changes tab](docs/screenshot.png) |
+| Changes tab: review every change before saving, revert just one | A sample page with instructions opens on first launch |
 
 ## Features
 
@@ -49,7 +82,7 @@ No Xcode, Visual Studio or Python is needed: there are no native modules.
 ## Build and run from source
 
 ```bash
-git clone <repository-url> twiq
+git clone https://github.com/rog3r1999/twiq.git
 cd twiq
 npm install -g pnpm@10        # once per machine, if pnpm is not installed
 pnpm install
@@ -66,7 +99,7 @@ pnpm dist:mac                 # release/<version>/: dmg and zip, arm64 and x64
 pnpm dist:win                 # release/<version>/: NSIS installer and zip, x64
 ```
 
-Run `dist:win` on Windows. On macOS only the zip can be built (`npx electron-builder --win zip`); the NSIS installer needs Wine there. Installers are unsigned: on macOS, right-click the app in Finder and choose **Open** the first time.
+Run `dist:win` on Windows. On macOS only the zip can be built (`npx electron-builder --win zip`); the NSIS installer needs Wine there. The macOS app is ad-hoc signed but not notarized, and the Windows installer is unsigned; see **Download** above for the first launch.
 
 ## Tests
 

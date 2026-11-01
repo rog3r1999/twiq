@@ -1,6 +1,6 @@
 # 给改这个仓库的人和 AI
 
-产品说明在 [README](README.zh-CN.md)，设计依据在 [docs/spec.md](docs/spec.md)，流程在 [CONTRIBUTING.md](CONTRIBUTING.md)。
+产品说明在 [README](README.md)，设计依据在 [docs/spec.md](docs/spec.md)，流程在 [CONTRIBUTING.md](CONTRIBUTING.md)。
 这里只写读代码猜不到、改错了又不会立刻报错的约束。
 
 ## 先跑什么

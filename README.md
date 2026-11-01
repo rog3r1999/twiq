@@ -1,14 +1,53 @@
 # Twiq
 
-[English](README.md) · **简体中文**
+**简体中文** · [English](README.en.md)
 
-**Twiq**（读音同 tweak，「微调」）：打开本地 HTML 文件，在渲染好的页面上直接点击修改文字；保存时只改动被改的那几个字符，文件其余部分一字节不变。
+**AI 写的 HTML，点一下就改。**
 
-适合修改 AI 生成的落地页、报告、幻灯片等静态页面：不用在源码里找字，也不会因为「所见即所得」把整份文件重新格式化。
+**Twiq**（读音同 tweak，「微调」）：打开本地 HTML 文件，在渲染好的页面上直接点击修改；保存时只改动被改的那几个字符，文件其余部分一字节不变。
 
-![改了两处之后：右侧「改动」页列出这两处，并写明 1,432 个字符里 1,432 个原样保留](docs/screenshot.zh-CN.png)
+用 AI 做的 PPT、报告、落地页，很多其实是一份 HTML。想改一个数字，要么翻源码找，要么让 AI 把整份重写一遍，还得担心它顺手改了别的地方。Twiq 让你直接在页面上改。
+
+[![宣传片片段：在 Twiq 里按意见改完一份 AI 写的幻灯片，19,376 个字符里只动了改的那几处](docs/media/twiq-demo.webp)](https://github.com/rog3r1999/twiq/releases/download/v1.0.0/Twiq-promo.mp4)
+
+上面是宣传片里的 Twiq 片段，Twiq 的操作是真实录屏，未剪辑、未加速。点击画面观看完整宣传片（42 秒，有配乐）。
 
 界面有简体中文与英文，默认跟随系统语言（「查看 › 语言」切换）。
+
+## 下载安装
+
+到 [Releases](https://github.com/rog3r1999/twiq/releases/latest) 下载最新版本，免费、开源。
+
+| 系统 | 下载哪个文件 |
+|---|---|
+| macOS，Apple 芯片（M1 及之后） | `Twiq-版本号-arm64.dmg` |
+| macOS，Intel 芯片 | `Twiq-版本号.dmg` |
+| Windows 10 / 11（x64） | `Twiq-Setup-版本号.exe` |
+
+不确定自己的 Mac 是哪种芯片：点屏幕左上角的苹果菜单 ›「关于本机」，「芯片」一栏写着 Apple M 系列就是 Apple 芯片，写「处理器」并且是 Intel 就是 Intel 芯片。
+
+**macOS 第一次打开**
+
+安装包还没有经过 Apple 公证，第一次打开时 macOS 会拦一下，按下面做一次，之后就能正常打开：
+
+1. 打开下载好的 dmg，把 Twiq 拖进「应用程序」文件夹。
+2. 在「应用程序」里双击 Twiq，系统提示无法验证开发者，点「完成」（不要点「移到废纸篓」）。
+3. 打开「系统设置 › 隐私与安全性」，滚到「安全性」一栏，找到关于 Twiq 的提示，点「仍要打开」，输入开机密码确认。
+
+**Windows 第一次打开**
+
+安装包没有代码签名，运行时如果出现「Windows 已保护你的电脑」，点「更多信息 › 仍要运行」。
+
+**先拿示例试试**：下载 [docs/demo/q3-review.html](docs/demo/q3-review.html)（一份 8 页的 AI 幻灯片，公司和数字都是虚构的），用 Twiq 打开，改几处再保存。
+
+## 截图
+
+| | |
+|---|---|
+| ![在幻灯片上直接改数字：单击选中，再点一次就能改](docs/screenshots/edit.zh-CN.png) | ![选中元素后，右侧属性面板可以改字号、字重、颜色、对齐等](docs/screenshots/properties.zh-CN.png) |
+| 单击选中，再点一次直接改字 | 属性面板：字号、字重、颜色、对齐、间距 |
+| ![「改动」页：2 处改动，19,376 个字符里 19,372 个原样保留](docs/screenshots/changes.zh-CN.png) | ![应用自带的示例页：改了两处之后，「改动」页列出这两处](docs/screenshot.zh-CN.png) |
+| 「改动」页：保存前逐处核对，可以只撤回其中一处 | 第一次打开时有示例页，跟着操作说明走一遍 |
 
 ## 功能
 
@@ -49,7 +88,7 @@
 ## 从源码构建与运行
 
 ```bash
-git clone <仓库地址> twiq
+git clone https://github.com/rog3r1999/twiq.git
 cd twiq
 npm install -g pnpm@10        # 没装 pnpm 时，每台机器执行一次
 pnpm install
@@ -66,7 +105,7 @@ pnpm dist:mac                 # release/<版本>/ 下的 dmg、zip（arm64 与 x
 pnpm dist:win                 # release/<版本>/ 下的 NSIS 安装包与 zip（x64）
 ```
 
-`dist:win` 请在 Windows 上执行。在 macOS 上只能打 zip（`npx electron-builder --win zip`），NSIS 安装包需要 Wine。安装包未签名，macOS 首次打开需在「访达」里右键 → 打开。
+`dist:win` 请在 Windows 上执行。在 macOS 上只能打 zip（`npx electron-builder --win zip`），NSIS 安装包需要 Wine。macOS 安装包是 ad-hoc 签名、未公证，Windows 安装包未签名，首次打开的步骤见上方「下载安装」。
 
 ## 测试
 
