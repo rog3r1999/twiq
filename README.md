@@ -6,23 +6,32 @@
 
 <p align="center"><b>AI 写的 HTML，点一下就改。</b></p>
 
+<p align="center">打开 AI 做的 PPT、报告、落地页，在页面上直接改；保存时只动你改的那几个字。</p>
+
+<p align="center"><a href="https://github.com/rog3r1999/twiq/releases/latest"><b>下载 Twiq</b></a>　macOS / Windows · 免费开源</p>
+
 <p align="center"><b>简体中文</b> · <a href="README.en.md">English</a></p>
 
-**Twiq**（读音同 tweak，「微调」）：打开本地 HTML 文件，在渲染好的页面上直接点击修改；保存时只改动被改的那几个字符，文件其余部分一字节不变。
+![宣传片里的 Twiq 片段：按 5 条修改意见改一份 AI 写的幻灯片](docs/media/twiq-demo.webp)
 
-用 AI 做的 PPT、报告、落地页，很多其实是一份 HTML。想改一个数字，要么翻源码找，要么让 AI 把整份重写一遍，还得担心它顺手改了别的地方。Twiq 让你直接在页面上改。
+宣传片里的 Twiq 片段：按 5 条修改意见改一份 AI 写的幻灯片。Twiq 的操作是真实录屏，未剪辑、未加速；[完整宣传片](#完整宣传片)在下面。
 
-![宣传片片段：在 Twiq 里按意见改完一份 AI 写的幻灯片，19,376 个字符里只动了改的那几处](docs/media/twiq-demo.webp)
+## 为什么用 Twiq
 
-上面是宣传片里的 Twiq 片段，Twiq 的操作是真实录屏，未剪辑、未加速。完整宣传片（42 秒，有配乐）：
+用 AI 做的 PPT、报告、落地页，很多其实是一份 HTML。想改一个数字，要么翻源码找，要么让 AI 把整份重写一遍，还得担心它顺手改了别的地方。
 
-https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+- **点一下就改**：单击选中，再点一次直接改字。字号、颜色、对齐在右侧属性面板里调，拖动就能换位置。
+- **只动你改的地方**：保存时只写入改动的那几个字符，缩进、属性顺序、换行风格都原样保留，不会顺手改了别处。
+- **改了什么一目了然**：「改动」页列出每一处修改，保存前逐处核对，可以只撤回其中一处。
+- **和 AI 一起用**：大改交给 AI，小改自己点。「复制给 AI」只把选中的那一段交给 AI；AI 改完保存，Twiq 自动载入。
 
-界面有简体中文与英文，默认跟随系统语言（「查看 › 语言」切换）。
+![「改动」页：2 处改动，19,376 个字符里 19,372 个原样保留](docs/screenshots/changes.zh-CN.png)
+
+改了封面一个词、把 38% 改成 41%：19,376 个字符里，19,372 个原样保留。
 
 ## 下载安装
 
-到 [Releases](https://github.com/rog3r1999/twiq/releases/latest) 下载最新版本，免费、开源。
+到 [Releases](https://github.com/rog3r1999/twiq/releases/latest) **下载 Twiq**，免费、开源（MIT）。
 
 | 系统 | 下载哪个文件 |
 |---|---|
@@ -46,16 +55,23 @@ https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 
 **先拿示例试试**：下载 [docs/demo/q3-review.html](docs/demo/q3-review.html)（一份 8 页的 AI 幻灯片，公司和数字都是虚构的），用 Twiq 打开，改几处再保存。
 
+## 完整宣传片
+
+42 秒，有配乐。同一份幻灯片、同样 5 处修改：让 AI 整份重写，和在 Twiq 里点一下。
+
+https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+
 ## 截图
 
 | | |
 |---|---|
-| ![在幻灯片上直接改数字：单击选中，再点一次就能改](docs/screenshots/edit.zh-CN.png) | ![选中元素后，右侧属性面板可以改字号、字重、颜色、对齐等](docs/screenshots/properties.zh-CN.png) |
-| 单击选中，再点一次直接改字 | 属性面板：字号、字重、颜色、对齐、间距 |
-| ![「改动」页：2 处改动，19,376 个字符里 19,372 个原样保留](docs/screenshots/changes.zh-CN.png) | ![应用自带的示例页：改了两处之后，「改动」页列出这两处](docs/screenshot.zh-CN.png) |
-| 「改动」页：保存前逐处核对，可以只撤回其中一处 | 第一次打开时有示例页，跟着操作说明走一遍 |
+| ![在幻灯片上直接改数字：单击选中，再点一次就能改，右侧属性面板可以调字号、颜色、对齐](docs/screenshots/edit.zh-CN.png) | ![应用自带的示例页：改了两处之后，「改动」页列出这两处](docs/screenshot.zh-CN.png) |
+| 单击选中，再点一次直接改字；右侧面板调字号、颜色、对齐 | 第一次打开有示例页，跟着页面上的说明走一遍 |
 
-## 功能
+## 全部功能
+
+<details>
+<summary>展开查看全部功能，以及哪些页面改不了</summary>
 
 - **就地改字**：单击选中，再点一次改字；Enter / Esc 完成，撤销重做按补丁进行。
 - **最小改动保存**：保留原文件的缩进、属性顺序、实体写法、BOM 与换行风格。
@@ -65,11 +81,15 @@ https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 - **和 AI 工具配合**：「复制给 AI」把元素源码连同文件路径、行号、CSS 选择器放进剪贴板，让 AI 助手只改这一段；AI 改完保存文件，Twiq 自动载入，你有未保存的修改时三方合并。
 - **文件**：多标签页、外部修改检测、插入图片 / 视频 / 音频、导出 PDF / Markdown / 纯文本。
 - **安全预览**：页面在独立的 `hw://` 协议下加载，未经允许不能读取所在目录之外的文件。
-- 浅色 / 深色外观，默认跟随系统。
+- 界面有简体中文与英文，默认跟随系统语言（「查看 › 语言」切换）；浅色 / 深色外观，默认跟随系统。
 
 不支持的情况：正文由 React、Vue 等在浏览器端渲染的页面（打开时提示一次，脚本生成的文字不能改）；非 UTF-8 编码或换行风格混杂的文件（只读打开）。
 
+</details>
+
 ## 常见问题
+
+**需要会写代码吗？** 不需要。打开文件、在页面上点、保存，和改一份文档一样。想看源码的话，任意元素都可以打开源码编辑，但不是必须的。
 
 **会把我的文件重新排版吗？** 不会。Twiq 从不重新序列化 HTML，每次修改都是只覆盖改动字符的补丁；保存前可以在「改动」页逐处核对。
 
@@ -79,7 +99,13 @@ https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 
 **什么样的页面最合适？** 文字写在 HTML 源码里的静态页面：AI 生成的落地页、报告、HTML 幻灯片、文档。[docs/spec.md](docs/spec.md) 附录 A 有可以直接交给 AI 的写法约束。
 
-## 环境依赖
+**名字怎么读？** 读音同 tweak，「微调」。
+
+## 参与开发
+
+下面是从源码构建、测试与贡献的说明。只想用 Twiq 的话，看上面的「下载安装」就够了。
+
+### 环境依赖
 
 | | 版本 | 说明 |
 |---|---|---|
@@ -91,7 +117,7 @@ https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
 
 不需要 Xcode、Visual Studio 或 Python：项目没有原生模块。
 
-## 从源码构建与运行
+### 从源码构建与运行
 
 ```bash
 git clone https://github.com/rog3r1999/twiq.git
@@ -104,7 +130,7 @@ pnpm build && pnpm start      # 运行构建产物
 pnpm build && npx electron . path/to/page.html   # 直接打开某个文件
 ```
 
-### 打包
+#### 打包
 
 ```bash
 pnpm dist:mac                 # release/<版本>/ 下的 dmg、zip（arm64 与 x64）
@@ -113,7 +139,7 @@ pnpm dist:win                 # release/<版本>/ 下的 NSIS 安装包与 zip�
 
 `dist:win` 请在 Windows 上执行。在 macOS 上只能打 zip（`npx electron-builder --win zip`），NSIS 安装包需要 Wine。macOS 安装包是 ad-hoc 签名、未公证，Windows 安装包未签名，首次打开的步骤见上方「下载安装」。
 
-## 测试
+### 测试
 
 ```bash
 pnpm check                    # 类型检查 + lint + 单元测试（Vitest）
@@ -123,7 +149,7 @@ pnpm coverage                 # 可编辑覆盖率（渲染版）：tests/fixtur
 pnpm coverage:static          # 同上，静态版，只解析源码
 ```
 
-## 目录
+### 目录
 
 ```
 docs/spec.md        产品与技术规格（v0.1 的设计依据；代码注释里的「规格 x.y」指这里的章节）
@@ -138,11 +164,11 @@ tests/              unit/ 单元测试，e2e/ 端到端测试，fixtures/ 测试
 resources/          示例文档
 ```
 
-## 版本
+### 版本
 
 见 [CHANGELOG.md](CHANGELOG.md)。推送 `vX.Y.Z` 标签会打出 macOS 与 Windows 安装包并生成 GitHub Release 草稿（`.github/workflows/release.yml`）。
 
-## 参与
+### 贡献
 
 见 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [AGENTS.md](AGENTS.md)。第三方许可见 [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md)；与 Tencent/page-harness 的对比见 [docs/compare-page-harness.md](docs/compare-page-harness.md)。
 

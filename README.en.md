@@ -6,23 +6,32 @@
 
 <p align="center"><b>Edit AI-written HTML with a click.</b></p>
 
+<p align="center">Edit AI-made slides, reports and landing pages right on the page; saving touches only what you changed.</p>
+
+<p align="center"><a href="https://github.com/rog3r1999/twiq/releases/latest"><b>Download Twiq</b></a>　macOS / Windows · free and open source</p>
+
 <p align="center"><a href="README.md">简体中文</a> · <b>English</b></p>
 
-*Twiq* (pronounced like "tweak") is a desktop editor for local HTML files. Click on the rendered page to edit it; saving patches only the characters you changed, and the rest of the file stays byte-for-byte identical.
+![From the promo film: working through five review comments on an AI-written slide deck in Twiq](docs/media/twiq-demo.webp)
 
-Many AI-made slide decks, reports and landing pages are really HTML files. To change one number you either dig through the source or ask the AI to rewrite the whole file and hope it leaves everything else alone. Twiq lets you edit right on the page.
+From the promo film: working through five review comments on an AI-written slide deck. The Twiq part is a real screen recording, uncut and at normal speed; the [full film](#the-full-film) is below.
 
-![From the promo film: the edits on an AI-written slide deck done in Twiq, touching only the changed characters out of 19,376](docs/media/twiq-demo.webp)
+## Why Twiq
 
-This clip is from the promo film; the Twiq part is a real screen recording, uncut and at normal speed. The full film (42 s, with music; on-screen text is in Chinese):
+Many AI-made slide decks, reports and landing pages are really HTML files. To change one number you either dig through the source or ask the AI to rewrite the whole file and hope it leaves everything else alone.
 
-https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+- **Click to edit**: click to select, click again to type. Adjust size, color and alignment in the property panel; drag blocks to move them.
+- **Only what you changed**: saving writes just the characters you edited. Indentation, attribute order and line endings stay as they were, and nothing else gets touched.
+- **See every change**: the Changes tab lists each edit so you can review them before saving, and revert just one.
+- **Works alongside your AI**: let the AI do big rewrites and make small fixes yourself. **Copy for AI** hands it only the part you selected; when it saves, Twiq reloads the file.
 
-The interface is in English and Simplified Chinese and follows your system language (**View › Language** to switch).
+![The Changes tab: 2 changes, 19,372 of 19,376 characters untouched](docs/screenshots/changes.en.png)
+
+One word changed on the cover and 38% changed to 41%: 19,372 of 19,376 characters untouched.
 
 ## Download
 
-Get the latest version from [Releases](https://github.com/rog3r1999/twiq/releases/latest). It is free and open source.
+**Download Twiq** from [Releases](https://github.com/rog3r1999/twiq/releases/latest). It is free and open source (MIT).
 
 | System | File |
 |---|---|
@@ -40,16 +49,23 @@ Get the latest version from [Releases](https://github.com/rog3r1999/twiq/release
 
 **Try it on a sample**: download [docs/demo/q3-review.html](docs/demo/q3-review.html) (an 8-slide AI-written deck in Chinese, with a fictional company and numbers), open it in Twiq, change a few things and save.
 
+## The full film
+
+42 s, with music; on-screen text is in Chinese. The same deck and the same five edits: an AI rewriting the whole file, and a click in Twiq.
+
+https://github.com/user-attachments/assets/58e8aed0-5e92-4cb1-ad3d-e963456dcfc5
+
 ## Screenshots
 
 | | |
 |---|---|
-| ![Editing a number on a slide: click to select, click again to edit](docs/screenshots/edit.en.png) | ![With an element selected, the property panel edits font size, weight, color and alignment](docs/screenshots/properties.en.png) |
-| Click to select, click again to edit the text | Property panel: font size, weight, color, alignment, spacing |
-| ![The Changes tab: 2 changes, 19,372 of 19,376 characters untouched](docs/screenshots/changes.en.png) | ![The built-in sample page after two edits, listed in the Changes tab](docs/screenshot.png) |
-| Changes tab: review every change before saving, revert just one | A sample page with instructions opens on first launch |
+| ![Editing a number on a slide: click to select, click again to edit; the property panel adjusts size, color and alignment](docs/screenshots/edit.en.png) | ![The built-in sample page after two edits, listed in the Changes tab](docs/screenshot.png) |
+| Click to select, click again to edit; adjust size, color and alignment in the panel | A sample page with instructions opens on first launch |
 
-## Features
+## All features
+
+<details>
+<summary>Show every feature, and which pages Twiq can't edit</summary>
 
 - **Edit in place** — click to select, click again to edit the text; Enter or Esc to finish. Undo and redo work on patches.
 - **Minimal-diff saving** — indentation, attribute order, entity spelling, BOM and line endings are preserved.
@@ -59,11 +75,15 @@ Get the latest version from [Releases](https://github.com/rog3r1999/twiq/release
 - **Works with your AI tools** — **Copy for AI** puts the element's source together with its file path, line numbers and a CSS selector on the clipboard, so an assistant changes only that part. When the assistant saves the file, Twiq reloads it and three-way merges your unsaved edits.
 - **Files** — multiple tabs, external-change detection, insert image / video / audio, export to PDF / Markdown / plain text.
 - **Sandboxed preview** — pages load through a private `hw://` protocol and cannot read files outside their own folder unless you allow it.
-- Light and dark appearance, following the system by default.
+- The interface is in English and Simplified Chinese and follows your system language (**View › Language** to switch); light and dark appearance follow the system too.
 
 Not supported: pages whose content is rendered in the browser by React, Vue and the like (you get a one-time notice, and script-generated text is not editable); files that are not UTF-8 or that mix line-ending styles (opened read-only).
 
+</details>
+
 ## FAQ
+
+**Do I need to know how to code?** No. Open a file, click on the page, save — like editing a document. You can open any element's source if you want to, but you never have to.
 
 **Will Twiq reformat my file?** No. Twiq never re-serializes the HTML. Every edit becomes a patch over the exact characters that changed; the Changes tab shows them before you save.
 
@@ -73,7 +93,13 @@ Not supported: pages whose content is rendered in the browser by React, Vue and 
 
 **Which pages work best?** Static pages where the text is in the HTML source: AI-generated landing pages, reports, HTML slide decks, documentation. [docs/spec.md](docs/spec.md) appendix A has writing guidelines you can give an AI.
 
-## Requirements
+**How do I say the name?** Like "tweak".
+
+## Contributing
+
+Building from source, testing and contributing. If you just want to use Twiq, **Download** above is all you need.
+
+### Requirements
 
 | | Version | Notes |
 |---|---|---|
@@ -85,7 +111,7 @@ Not supported: pages whose content is rendered in the browser by React, Vue and 
 
 No Xcode, Visual Studio or Python is needed: there are no native modules.
 
-## Build and run from source
+### Build and run from source
 
 ```bash
 git clone https://github.com/rog3r1999/twiq.git
@@ -98,7 +124,7 @@ pnpm build && pnpm start      # run the production build
 pnpm build && npx electron . path/to/page.html   # open a specific file
 ```
 
-### Packaging
+#### Packaging
 
 ```bash
 pnpm dist:mac                 # release/<version>/: dmg and zip, arm64 and x64
@@ -107,7 +133,7 @@ pnpm dist:win                 # release/<version>/: NSIS installer and zip, x64
 
 Run `dist:win` on Windows. On macOS only the zip can be built (`npx electron-builder --win zip`); the NSIS installer needs Wine there. The macOS app is ad-hoc signed but not notarized, and the Windows installer is unsigned; see **Download** above for the first launch.
 
-## Tests
+### Tests
 
 ```bash
 pnpm check                    # type check + lint + unit tests (Vitest)
@@ -117,7 +143,7 @@ pnpm coverage                 # how much text in tests/fixtures/real*/ is direct
 pnpm coverage:static          # same, from source only
 ```
 
-## Project layout
+### Project layout
 
 ```
 docs/spec.md        Product and technical spec (the v0.1 design basis; "规格 x.y" in code comments refers to its sections)
@@ -132,11 +158,11 @@ tests/              unit/, e2e/, fixtures/
 resources/          Sample document
 ```
 
-## Releases
+### Releases
 
 See [CHANGELOG.md](CHANGELOG.md). Pushing a `vX.Y.Z` tag builds the macOS and Windows installers and drafts a GitHub Release (`.github/workflows/release.yml`).
 
-## Contributing
+### Guidelines
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) (in Chinese). Third-party licenses are listed in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
