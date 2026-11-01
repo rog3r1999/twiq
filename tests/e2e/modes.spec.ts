@@ -1,15 +1,12 @@
 // C. 不可编辑与模式（AC-25 至 AC-28、AC-44）；H. 体验（UX-01、UX-02）
 import { expect, test } from '@playwright/test'
 import path from 'node:path'
-import { clickAt, launch, preview, shell, sleep, state, stubDialogs, waitFor, workdir, ws, dialogTitles, type Ctx } from './helpers'
+import { clickAt, dialogTitles, launch, preview, quit, shell, sleep, state, stubDialogs, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx | null = null
 test.afterEach(async () => {
   if (!ctx) return
-  await ctx.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx.app.close().catch(() => {})
+  await quit(ctx)
   ctx = null
 })
 

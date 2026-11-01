@@ -1,14 +1,11 @@
 // v0.6：拖动、缩放、层级、吸附、SVG（用户反馈的 10 项拆解）。
 import { expect, test, type Page } from '@playwright/test'
 import path from 'node:path'
-import { clickAt, launch, preview, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { clickAt, launch, preview, quit, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 async function setup(mode: 'select' | 'edit' = 'select') {

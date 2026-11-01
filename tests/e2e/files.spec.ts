@@ -3,15 +3,12 @@ import { expect, test } from '@playwright/test'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
-import { clickAt, dialogTitles, editing, launch, preview, read, shell, sleep, state, stubDialogs, waitFor, workdir, ws, type Ctx } from './helpers'
+import { clickAt, dialogTitles, editing, launch, preview, quit, read, shell, sleep, state, stubDialogs, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx | null = null
 test.afterEach(async () => {
   if (!ctx) return
-  await ctx.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx.app.close().catch(() => {})
+  await quit(ctx)
   ctx = null
 })
 

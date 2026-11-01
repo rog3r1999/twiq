@@ -1,11 +1,11 @@
 // v0.8.1：选中块（或多选）后在块内按下拖动，整块一起走，不再退回拖里层段落。
 import { expect, test, type Page } from '@playwright/test'
 import path from 'node:path'
-import { launch, preview, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 async function setup() {

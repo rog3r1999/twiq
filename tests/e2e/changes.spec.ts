@@ -2,14 +2,11 @@
 import { expect, test } from '@playwright/test'
 import path from 'node:path'
 import type { ChangesView } from '../../src/shared/types'
-import { clickAt, editing, launch, preview, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { clickAt, editing, launch, preview, quit, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 /** 在某个文字块末尾输入一段字并提交 */

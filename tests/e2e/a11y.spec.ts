@@ -1,15 +1,12 @@
 // 键盘与无障碍（UX-09 可自动化部分、规格 11.3 标注）
 import { expect, test } from '@playwright/test'
 import path from 'node:path'
-import { launch, preview, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx | null = null
 test.afterEach(async () => {
   if (!ctx) return
-  await ctx.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx.app.close().catch(() => {})
+  await quit(ctx)
 })
 
 test('UX-09 键盘全流程：外壳 Tab 进入页面，Tab 到某处，Enter 编辑，改字，Enter 完成，保存', async () => {

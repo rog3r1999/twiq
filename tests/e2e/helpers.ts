@@ -32,6 +32,27 @@ export async function launch(files: string[] = [], opts: { settings?: string; en
   return { app, settings }
 }
 
+/**
+ * 测试结束时关掉应用：跳过「有未保存的修改」确认再关。15 秒内关不掉就直接结束进程——
+ * CI 的 macOS 虚拟机上偶尔整个应用卡住，afterEach 一直等下去会让整个 worker 收尾超时，
+ * 那个错误不属于任何测试，重试也救不回来。
+ */
+export async function quit(ctx: Ctx | null | undefined): Promise<void> {
+  if (!ctx) return
+  const app = ctx.app
+  const closed = (async () => {
+    await app.evaluate(() => {
+      ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
+    })
+    await app.close()
+  })().then(
+    () => true,
+    () => true
+  )
+  const timeout = new Promise<false>((r) => setTimeout(() => r(false), 15_000))
+  if (!(await Promise.race([closed, timeout]))) app.process().kill('SIGKILL')
+}
+
 export async function shell(app: ElectronApplication): Promise<Page> {
   for (let i = 0; i < 100; i++) {
     const p = app.windows().find((w) => w.url().includes('/renderer/') || w.url().startsWith('http://localhost'))

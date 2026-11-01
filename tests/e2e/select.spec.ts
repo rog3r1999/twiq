@@ -1,14 +1,11 @@
 // v0.2–v0.4：选择模式、结构操作、样式、文字格式（规格 20.2–20.4）。
 import { expect, test } from '@playwright/test'
 import path from 'node:path'
-import { clickAt, editing, launch, preview, read, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { clickAt, editing, launch, preview, quit, read, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 async function setup() {

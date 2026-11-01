@@ -2,14 +2,11 @@
 import { expect, test } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import { launch, preview, read, shell, sleep, state, stubDialogs, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, read, shell, sleep, state, stubDialogs, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 /** 元素表里第一个满足条件的元素的 eid（按标签与文字找） */

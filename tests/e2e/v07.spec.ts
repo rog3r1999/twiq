@@ -1,14 +1,11 @@
 // v0.7：属性面板拉宽与预览缩放、SVG 结构化编辑与源码保护、插入菜单、复制源码。
 import { expect, test } from '@playwright/test'
 import path from 'node:path'
-import { launch, preview, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, read, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 async function setup() {

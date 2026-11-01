@@ -2,18 +2,13 @@
 import { expect, test } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import { launch, preview, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
+import { launch, preview, quit, shell, sleep, state, waitFor, workdir, ws, type Ctx } from './helpers'
 
 let ctx: Ctx | null = null
 
 test.afterEach(async () => {
   if (!ctx) return
-  await ctx.app
-    .evaluate(() => {
-      ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-    })
-    .catch(() => undefined)
-  await ctx.app.close().catch(() => undefined)
+  await quit(ctx)
   ctx = null
 })
 

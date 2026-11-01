@@ -4,16 +4,13 @@
 import { expect, test } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
 import path from 'node:path'
-import { clickAt, dialogTitles, editing, launch, preview, read, sleep, state, stubDialogs, waitFor, workdir, type Ctx } from './helpers'
+import { clickAt, dialogTitles, editing, launch, preview, quit, read, sleep, state, stubDialogs, waitFor, workdir, type Ctx } from './helpers'
 
 test.skip(process.platform !== 'darwin' || !process.env.HW_OS_KEYS, '需要 macOS 与 HW_OS_KEYS=1')
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  }).catch(() => {})
-  await ctx?.app.close().catch(() => {})
+  await quit(ctx)
 })
 
 function osKey(pid: number, key: string, mods: string[]): void {
