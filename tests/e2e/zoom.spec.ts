@@ -3,14 +3,11 @@
 import { expect, test } from '@playwright/test'
 import fs from 'node:fs'
 import path from 'node:path'
-import { clickAt, editing, launch, preview, sleep, workdir, type Ctx } from './helpers'
+import { clickAt, editing, launch, preview, quit, sleep, workdir, type Ctx } from './helpers'
 
 let ctx: Ctx
 test.afterEach(async () => {
-  await ctx?.app.evaluate(() => {
-    ;(globalThis as unknown as { __hw: { ws: { forceClose: boolean } } }).__hw.ws.forceClose = true
-  })
-  await ctx?.app.close()
+  await quit(ctx)
 })
 
 for (const zoom of [125, 150]) {
@@ -29,24 +26,37 @@ for (const zoom of [125, 150]) {
       const r = document.querySelector('h1')!.getBoundingClientRect()
       return { x: r.left, y: r.top, w: r.width, h: r.height, dpr: devicePixelRatio }
     })
-    const box = await ctx.app.evaluate(async () => {
+    // 框的上下边是横跨元素的整行编辑色；只在这样的行之间找左右边。
+    // Windows 的 ClearType 会在黑字边缘留下零星彩色像素，有的落在编辑色的容差里，不能算进框里
+    const minRun = 0.3 * css.w * css.dpr
+    const box = await ctx.app.evaluate(async (_e, minRun) => {
       const w = (globalThis as unknown as { __hw: { ws: { active: { view: Electron.WebContentsView } } } }).__hw.ws
       const img = await w.active.view.webContents.capturePage()
       const { width, height } = img.getSize()
       const bmp = img.toBitmap() // BGRA
       const sw = bmp.length / 4 / height
-      let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1
-      for (let y = 0; y < height; y++)
+      const rows: { n: number; min: number; max: number }[] = []
+      for (let y = 0; y < height; y++) {
+        const row = { n: 0, min: Infinity, max: -1 }
         for (let x = 0; x < sw; x++) {
           const i = (y * sw + x) * 4
           const b = bmp[i], g = bmp[i + 1], r = bmp[i + 2]
           // 编辑色 #0E7A5C 的实线（不含 16% 光晕）
           if (Math.abs(r - 0x0e) < 20 && Math.abs(g - 0x7a) < 20 && Math.abs(b - 0x5c) < 20) {
-            x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y)
+            row.n++; row.min = Math.min(row.min, x); row.max = Math.max(row.max, x)
           }
         }
+        rows.push(row)
+      }
+      const edges = rows.flatMap((r, y) => (r.n >= minRun * (sw / width) ? [y] : []))
+      const y0 = edges.length ? edges[0] : -1
+      const y1 = edges.length ? edges[edges.length - 1] : -1
+      let x0 = Infinity, x1 = -1
+      for (let y = Math.max(y0, 0); y <= y1; y++) {
+        x0 = Math.min(x0, rows[y].min); x1 = Math.max(x1, rows[y].max)
+      }
       return { x0, y0, x1, y1, scale: sw / width, png: img.toPNG().toString('base64') }
-    })
+    }, minRun)
     // 设备像素 = CSS 像素（已含页面缩放）× devicePixelRatio
     const k = css.dpr * box.scale
     // 留下现场：失败时随 test-results 一起上传，对照截图看编辑色像素落在哪里
