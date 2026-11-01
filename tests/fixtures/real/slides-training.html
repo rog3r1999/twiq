@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>新员工入职培训</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #e5e7eb; }
+    .deck { display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px 0; }
+    .page { width: 960px; height: 540px; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,.12); position: relative; overflow: hidden; padding: 56px 64px; box-sizing: border-box; }
+    .page .no { position: absolute; bottom: 20px; right: 28px; color: #9ca3af; font-size: 14px; }
+    .title-page { background: #1d4ed8; color: #fff; display: flex; flex-direction: column; justify-content: center; }
+    .title-page h1 { font-size: 54px; margin: 0; }
+    h2 { font-size: 36px; color: #1d4ed8; margin-top: 0; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .box { background: #eff6ff; border-radius: 12px; padding: 24px; font-size: 18px; }
+    .timeline { display: flex; justify-content: space-between; margin-top: 48px; }
+    .step { text-align: center; width: 22%; }
+    .step .dot { width: 48px; height: 48px; border-radius: 50%; background: #1d4ed8; color: #fff; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="page title-page">
+      <h1>欢迎加入星辰科技</h1>
+      <p style="font-size:22px;opacity:.85">新员工入职培训 · 第一天</p>
+      <span class="no">1</span>
+    </section>
+
+    <section class="page">
+      <h2>我们是谁</h2>
+      <div class="two">
+        <div class="box"><b>使命</b><br>用技术让每一家小店都能做好生意。</div>
+        <div class="box"><b>愿景</b><br>成为中国最受信赖的零售 SaaS 服务商。</div>
+      </div>
+      <p style="font-size:20px;margin-top:32px">成立于 2018 年，现有员工 640 人，服务超过 18 万家门店。</p>
+      <span class="no">2</span>
+    </section>
+
+    <section class="page">
+      <h2>你的第一周</h2>
+      <div class="timeline">
+        <div class="step"><div class="dot">1</div>领取电脑<br>开通账号</div>
+        <div class="step"><div class="dot">2</div>认识导师<br>熟悉团队</div>
+        <div class="step"><div class="dot">3</div>产品培训<br>上手体验</div>
+        <div class="step"><div class="dot">4</div>第一个任务<br>周五分享</div>
+      </div>
+      <span class="no">3</span>
+    </section>
+
+    <section class="page">
+      <h2>常用工具</h2>
+      <ul style="font-size:20px;line-height:2">
+        <li>即时通讯：飞书（所有工作沟通都在这里）</li>
+        <li>代码与文档：GitLab、飞书文档</li>
+        <li>报销与请假：员工自助平台 <code>hr.xingchen.example</code></li>
+      </ul>
+      <p style="font-size:18px;color:#6b7280">遇到任何问题，先找你的导师，或在 #新人互助 频道提问。</p>
+      <span class="no">4</span>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>越界读取</title>
+<link rel="stylesheet" href="../escape-secret.css">
+</head>
+<body>
+<h1 class="probe">越界读取测试</h1>
+<p id="result">检测中</p>
+<script>
+  fetch('../escape-secret.css').then(r => r.status).catch(() => 'error').then(s => { document.title = 'fetch:' + s })
+</script>
+</body>
+</html>

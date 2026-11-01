@@ -1,0 +1,68 @@
+# 推送 v* 标签：校验版本号与更新记录 → 检查 → macOS 与 Windows 各自打包 → 生成 Release 草稿（附安装包）。
+# 草稿由维护者确认后手动发布；安装包未签名（见 README「打包」）。
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 标签与 package.json 的版本一致
+        run: |
+          pkg="v$(node -p "require('./package.json').version")"
+          [ "$pkg" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME != package.json $pkg"; exit 1; }
+      - name: CHANGELOG.md 里有这个版本
+        run: grep -q "^## ${GITHUB_REF_NAME#v} " CHANGELOG.md || { echo "CHANGELOG.md has no section for ${GITHUB_REF_NAME#v}"; exit 1; }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+  build:
+    needs: verify
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          # NSIS 安装包要在 Windows 上打（macOS 上需要 Wine）
+          - os: macos-14
+            target: mac
+          - os: windows-latest
+            target: win
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm dist:${{ matrix.target }} --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.target }}
+          path: |
+            release/*/*.dmg
+            release/*/*.zip
+            release/*/*.exe
+          if-no-files-found: error
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: dist, merge-multiple: true }
+      - name: 从 CHANGELOG.md 取这个版本的说明
+        run: awk -v v="## ${GITHUB_REF_NAME#v} " 'index($0, v) == 1 { f = 1; next } /^## / { f = 0 } f' CHANGELOG.md > notes.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          body_path: notes.md
+          files: |
+            dist/**/*.dmg
+            dist/**/*.zip
+            dist/**/*.exe

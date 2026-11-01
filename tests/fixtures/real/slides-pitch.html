@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenRoute 融资路演</title>
+<style>
+  html, body { margin: 0; height: 100%; font-family: "Helvetica Neue", "PingFang SC", sans-serif; background: #0f172a; }
+  .slide { display: none; width: 100vw; height: 100vh; box-sizing: border-box; padding: 8vh 10vw; color: #f8fafc; flex-direction: column; justify-content: center; }
+  .slide.active { display: flex; }
+  .slide h1 { font-size: 64px; margin: 0 0 24px; }
+  .slide h2 { font-size: 44px; margin: 0 0 32px; color: #4ade80; }
+  .slide p, .slide li { font-size: 26px; line-height: 1.6; color: #cbd5e1; }
+  .big-number { font-size: 120px; font-weight: 800; color: #4ade80; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .col { background: #1e293b; padding: 32px; border-radius: 16px; }
+  .col h3 { font-size: 28px; margin-top: 0; }
+  .nav { position: fixed; bottom: 24px; right: 32px; color: #64748b; font-size: 18px; }
+  .nav button { background: #1e293b; color: #f8fafc; border: none; padding: 8px 16px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="slide active">
+  <h1>GreenRoute</h1>
+  <p>用 AI 规划城市货运路线，每单减少 23% 的碳排放</p>
+  <p style="font-size:20px;color:#64748b">A 轮融资 · 2026 年 10 月</p>
+</div>
+
+<div class="slide">
+  <h2>问题</h2>
+  <ul>
+    <li>城市配送占城市交通碳排放的 <strong>30%</strong></li>
+    <li>中小物流公司仍靠司机经验排线，空驶率高达 35%</li>
+    <li>现有的路线优化软件价格昂贵，部署周期长达半年</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>我们的方案</h2>
+  <div class="cols">
+    <div class="col"><h3>🧠 智能排线</h3><p>实时路况 + 订单预测，每 5 分钟重新优化。</p></div>
+    <div class="col"><h3>📱 司机 App</h3><p>一键导航、电子签收，司机零学习成本。</p></div>
+    <div class="col"><h3>🌱 碳排报告</h3><p>每月自动生成可审计的减排报告。</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>增长</h2>
+  <div class="big-number">¥1,860 万</div>
+  <p>年度经常性收入（ARR），过去 12 个月增长 4.2 倍</p>
+</div>
+
+<div class="slide">
+  <h2>融资计划</h2>
+  <p>本轮计划融资 <strong>8,000 万元</strong>，用于：</p>
+  <ul>
+    <li>研发团队扩充至 60 人（45%）</li>
+    <li>进入 10 个新城市（35%）</li>
+    <li>运营与合规（20%）</li>
+  </ul>
+  <p>联系人：周舟 · zhouzhou@greenroute.example</p>
+</div>
+
+<div class="nav">
+  <button onclick="go(-1)">←</button>
+  <span id="pageNum">1 / 5</span>
+  <button onclick="go(1)">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  function go(d) {
+    slides[current].classList.remove('active');
+    current = (current + d + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + slides.length;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>脚本渲染</title>
+<!-- 正文完全由页面脚本生成（模拟 Vue / React 在浏览器端渲染）。不从 CDN 加载框架：
+     测试不依赖网络，unpkg 慢的时候 AC-44 会因为页面迟迟不触发 load 而超时 -->
+</head>
+<body>
+<div id="app"></div>
+<script>
+  const items = ['第一条：在浏览器端渲染的正文', '第二条：源码里没有这些文字', '第三条：编辑器无法安全写回']
+  const render = () => {
+    document.getElementById('app').innerHTML = '<h1>' + '脚本渲染的标题' + '</h1>' + items.map(t => '<p>' + t + '</p>').join('')
+  }
+  render()
+</script>
+</body>
+</html>

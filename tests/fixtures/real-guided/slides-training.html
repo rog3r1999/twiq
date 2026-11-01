@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>新员工入职培训</title>
+<style>
+  body { margin: 0; font-family: system-ui, sans-serif; background: #e5e7eb; }
+  .deck { display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 40px 0; }
+  .page { width: 960px; height: 540px; background: #fff; position: relative; padding: 56px 64px; box-sizing: border-box; }
+  .no { position: absolute; bottom: 20px; right: 28px; color: #9ca3af; }
+  .title-page { background: #1d4ed8; color: #fff; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .box { background: #eff6ff; border-radius: 12px; padding: 24px; }
+  .timeline { display: flex; justify-content: space-between; }
+  .step { text-align: center; width: 22%; }
+  .dot { width: 48px; height: 48px; border-radius: 50%; background: #1d4ed8; color: #fff; margin: 0 auto 12px; line-height: 48px; }
+</style>
+</head>
+<body>
+<div class="deck">
+  <section class="page title-page">
+    <h1>欢迎加入星辰科技</h1>
+    <p>新员工入职培训 · 第一天</p>
+    <p class="no">1</p>
+  </section>
+  <section class="page">
+    <h2>我们是谁</h2>
+    <div class="two">
+      <div class="box"><h3>使命</h3><p>用技术让每一家小店都能做好生意。</p></div>
+      <div class="box"><h3>愿景</h3><p>成为中国最受信赖的零售 SaaS 服务商。</p></div>
+    </div>
+    <p>成立于 2018 年，现有员工 640 人，服务超过 18 万家门店。</p>
+    <p class="no">2</p>
+  </section>
+  <section class="page">
+    <h2>你的第一周</h2>
+    <div class="timeline">
+      <div class="step"><p class="dot">1</p><p>领取电脑<br>开通账号</p></div>
+      <div class="step"><p class="dot">2</p><p>认识导师<br>熟悉团队</p></div>
+      <div class="step"><p class="dot">3</p><p>产品培训<br>上手体验</p></div>
+      <div class="step"><p class="dot">4</p><p>第一个任务<br>周五分享</p></div>
+    </div>
+    <p class="no">3</p>
+  </section>
+  <section class="page">
+    <h2>常用工具</h2>
+    <ul>
+      <li>即时通讯：飞书（所有工作沟通都在这里）</li>
+      <li>代码与文档：GitLab、飞书文档</li>
+      <li>报销与请假：员工自助平台 <code>hr.xingchen.example</code></li>
+    </ul>
+    <p>遇到任何问题，先找你的导师，或在 #新人互助 频道提问。</p>
+    <p class="no">4</p>
+  </section>
+</div>
+</body>
+</html>

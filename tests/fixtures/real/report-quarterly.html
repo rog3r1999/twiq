@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 年第三季度业务报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+body { font-family: -apple-system, "Segoe UI", sans-serif; max-width: 960px; margin: 0 auto; padding: 40px 24px; color: #1f2937; background: #f9fafb; }
+h1 { font-size: 32px; margin-bottom: 4px; }
+.subtitle { color: #6b7280; margin-bottom: 32px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.kpi .label { font-size: 13px; color: #6b7280; }
+.kpi .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
+.kpi .delta { font-size: 13px; margin-top: 4px; }
+.up { color: #059669; } .down { color: #dc2626; }
+section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e5e7eb; }
+th { background: #f3f4f6; font-weight: 600; }
+.callout { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 16px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<h1>2026 年第三季度业务报告</h1>
+<p class="subtitle">报告期：2026 年 7 月 1 日 – 9 月 30 日 · 编制：经营分析部</p>
+
+<div class="kpis">
+  <div class="kpi"><div class="label">营业收入</div><div class="value">¥4.82 亿</div><div class="delta up">▲ 18.4% 同比</div></div>
+  <div class="kpi"><div class="label">毛利率</div><div class="value">42.7%</div><div class="delta up">▲ 2.1 个百分点</div></div>
+  <div class="kpi"><div class="label">活跃客户</div><div class="value">36,210</div><div class="delta up">▲ 9.8%</div></div>
+  <div class="kpi"><div class="label">客户流失率</div><div class="value">3.4%</div><div class="delta down">▲ 0.6 个百分点</div></div>
+</div>
+
+<section>
+  <h2>一、总体概况</h2>
+  <p>第三季度公司实现营业收入 4.82 亿元，同比增长 18.4%，连续第六个季度保持两位数增长。增长主要来自<strong>企业版订阅</strong>和<strong>华东区域</strong>的新客户拓展。</p>
+  <p>与此同时，中小客户的流失率有所上升，需要在第四季度重点关注续费环节的体验。</p>
+  <div class="callout">💡 关键结论：收入结构持续优化，企业版收入占比首次超过 50%。</div>
+</section>
+
+<section>
+  <h2>二、月度收入趋势</h2>
+  <canvas id="revenueChart" height="120"></canvas>
+</section>
+
+<section>
+  <h2>三、分区域表现</h2>
+  <table>
+    <thead><tr><th>区域</th><th>收入（万元）</th><th>同比</th><th>负责人</th></tr></thead>
+    <tbody>
+      <tr><td>华东</td><td>18,420</td><td class="up">+26.1%</td><td>李明</td></tr>
+      <tr><td>华南</td><td>12,960</td><td class="up">+15.3%</td><td>张华</td></tr>
+      <tr><td>华北</td><td>10,330</td><td class="up">+11.8%</td><td>王芳</td></tr>
+      <tr><td>西部</td><td>6,490</td><td class="down">-2.4%</td><td>赵磊</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>四、第四季度重点工作</h2>
+  <ol>
+    <li><strong>续费体验改进：</strong>上线自动续费提醒与一键升级，目标将中小客户流失率降至 3% 以下。</li>
+    <li><strong>西部区域调整：</strong>重新梳理渠道合作伙伴，引入两家省级代理。</li>
+    <li><strong>产品发布：</strong>11 月发布 AI 助手功能，面向企业版客户免费开放三个月。</li>
+  </ol>
+</section>
+
+<script>
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['7 月', '8 月', '9 月'],
+    datasets: [{ label: '收入（百万元）', data: [152, 158, 172], backgroundColor: '#3b82f6' }]
+  },
+  options: { plugins: { legend: { display: false } } }
+});
+</script>
+</body>
+</html>

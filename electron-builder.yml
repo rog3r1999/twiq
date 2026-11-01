@@ -1,0 +1,53 @@
+appId: com.twiq.app
+productName: Twiq
+copyright: © 2026 Roger Luo
+directories:
+  output: release/${version}
+  buildResources: build
+files:
+  - out/**
+  - package.json
+extraResources:
+  - from: resources/sample-demo.html
+    to: sample-demo.html
+  - from: resources/sample-demo.en.html
+    to: sample-demo.en.html
+  - from: THIRD_PARTY_LICENSES.md
+    to: THIRD_PARTY_LICENSES.md
+asarUnpack: []
+fileAssociations:
+  - ext: [html, htm]
+    name: HTML 文档
+    description: HTML 文档
+    role: Editor
+    rank: Alternate
+    mimeType: text/html
+mac:
+  category: public.app-category.productivity
+  # Windows 包由 electron-builder 自动带上 Electron 与 Chromium 的许可证；macOS 不会，这里显式放进 Resources（v0.10）
+  extraResources:
+    - from: node_modules/electron/dist/LICENSE
+      to: LICENSE.electron.txt
+    - from: node_modules/electron/dist/LICENSES.chromium.html
+      to: LICENSES.chromium.html
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  # 代码签名与公证不在 v0.1 范围（12.1）
+  identity: null
+  hardenedRuntime: false
+dmg:
+  title: Twiq ${version}
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: zip
+      arch: [x64]
+  signAndEditExecutable: false
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false

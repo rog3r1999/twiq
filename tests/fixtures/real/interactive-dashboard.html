@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>销售看板</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-slate-100">
+  <div class="flex min-h-screen">
+    <aside class="w-60 bg-slate-900 text-slate-300 p-6">
+      <div class="text-white text-xl font-bold mb-8">📊 销售看板</div>
+      <nav class="space-y-2">
+        <a class="block px-3 py-2 rounded bg-slate-800 text-white" href="#">总览</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-800" href="#">客户</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-800" href="#">订单</a>
+        <a class="block px-3 py-2 rounded hover:bg-slate-800" href="#">设置</a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-slate-800">本月总览</h1>
+        <div class="flex gap-2" id="rangeBtns">
+          <button class="px-3 py-1 rounded bg-white" data-range="7">近 7 天</button>
+          <button class="px-3 py-1 rounded bg-blue-600 text-white" data-range="30">近 30 天</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-4 mb-6" id="kpiGrid"></div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2 bg-white rounded-xl p-6">
+          <h2 class="font-semibold mb-4">每日销售额</h2>
+          <canvas id="salesChart" height="110"></canvas>
+        </div>
+        <div class="bg-white rounded-xl p-6">
+          <h2 class="font-semibold mb-4">最新订单</h2>
+          <ul id="orders" class="space-y-3 text-sm"></ul>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-400 mt-6">数据每 15 分钟更新一次 · 最后更新：<span id="updated"></span></p>
+    </main>
+  </div>
+
+  <script>
+    const kpis = [
+      { name: '销售额', value: '¥128.4 万', delta: '+12.5%' },
+      { name: '订单数', value: '3,482', delta: '+8.1%' },
+      { name: '客单价', value: '¥368', delta: '+4.0%' },
+      { name: '退款率', value: '1.9%', delta: '-0.3%' }
+    ];
+    document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
+      <div class="bg-white rounded-xl p-5">
+        <div class="text-sm text-slate-500">${k.name}</div>
+        <div class="text-2xl font-bold mt-1">${k.value}</div>
+        <div class="text-sm text-emerald-600 mt-1">${k.delta}</div>
+      </div>`).join('');
+
+    const orders = [
+      ['#20931', '上海某餐饮公司', '¥4,280'],
+      ['#20930', '杭州某服装店', '¥1,960'],
+      ['#20929', '成都某便利店', '¥860'],
+      ['#20928', '深圳某科技公司', '¥12,400']
+    ];
+    document.getElementById('orders').innerHTML = orders.map(o =>
+      `<li class="flex justify-between"><span>${o[0]} ${o[1]}</span><b>${o[2]}</b></li>`).join('');
+
+    document.getElementById('updated').textContent = new Date().toLocaleString('zh-CN');
+
+    new Chart(document.getElementById('salesChart'), {
+      type: 'line',
+      data: {
+        labels: Array.from({ length: 30 }, (_, i) => (i + 1) + '日'),
+        datasets: [{ data: Array.from({ length: 30 }, () => 30 + Math.random() * 30), borderColor: '#2563eb', tension: .3 }]
+      },
+      options: { plugins: { legend: { display: false } } }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>security</title>
+<p id="out">检测中</p>
+<script>
+  const r = {}
+  r.require = typeof require
+  r.process = typeof process
+  r.open = (() => { try { return window.open('https://example.com/') === null ? 'blocked' : 'opened' } catch (e) { return 'error' } })()
+  Promise.all([
+    fetch('file:///etc/hosts').then(() => 'loaded', () => 'failed'),
+    navigator.mediaDevices.getUserMedia({ video: true }).then(() => 'granted', () => 'denied')
+  ]).then(([file, camera]) => {
+    r.file = file
+    r.camera = camera
+    document.getElementById('out').textContent = JSON.stringify(r)
+  })
+</script>
+</body>

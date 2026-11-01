@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twiq sample page</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei UI", sans-serif; max-width: 760px; margin: 0 auto; padding: 48px 24px; color: #1f2937; line-height: 1.7; }
+  h1 { font-size: 34px; margin-bottom: 8px; }
+  .lead { font-size: 18px; color: #4b5563; }
+  .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px 24px; margin: 24px 0; }
+  .stat { font-size: 40px; font-weight: 700; color: #2563eb; }
+  pre { background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow: auto; }
+  .tip { color: #6b7280; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Welcome to Twiq</h1>
+<p class="lead">Click this text to select it, then click again to edit it right here.</p>
+
+<div class="card">
+<h2>What you can edit</h2>
+<p>Headings and paragraphs can be edited directly. Press Enter when you are done; the Changes tab in the panel lists everything you changed. Press Cmd/Ctrl+S to save.</p>
+<p>Paragraphs with <strong>bold</strong> and <em>emphasis</em> can be edited too, and the formatting stays as it was.</p>
+</div>
+
+<div class="card">
+<h2>What you cannot edit</h2>
+<p>A script on the page produces the number below, so it is not in the source. Select it and click again to see why:</p>
+<div class="stat" id="visitors"></div>
+<p>Text inside a code block (pre) cannot be edited yet:</p>
+<pre><code>function hello() {
+  return 'Hello, Twiq'
+}</code></pre>
+</div>
+
+<p class="tip">Saving changes only the characters you changed; every other byte of the file stays the same. Saving the sample page asks where to put it.</p>
+
+<script>
+  document.getElementById('visitors').textContent = (12000 + 345).toLocaleString('en-US') + ' visitors'
+</script>
+</body>
+</html>

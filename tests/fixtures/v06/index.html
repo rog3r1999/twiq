@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>v0.6</title>
+<style>
+  body { font: 16px/1.6 sans-serif; margin: 24px; }
+  .row { display: flex; gap: 16px; }
+  .card { width: 120px; padding: 8px; border: 1px solid #ccc; }
+  .tall { height: 1600px; }
+</style>
+</head>
+<body>
+<h1 id="title">标题</h1>
+<p id="intro">介绍 <img id="pic" src="pic.png" alt="图"> 文字</p>
+<ul id="loose">
+  <li>甲
+  <li>乙
+  <li>丙
+</ul>
+<div class="row" id="row">
+  <div class="card" id="c1">卡一</div>
+  <div class="card" id="c2">卡二</div>
+  <div class="card" id="c3">卡三</div>
+</div>
+<svg id="chart" width="240" height="120" viewBox="0 0 240 120">
+  <rect id="bar" x="10" y="20" width="60" height="80" fill="#3D7BFD"/>
+  <text id="label" x="20" y="115" font-size="14">销量</text>
+  <circle id="dot" cx="180" cy="60" r="20" fill="#FF6B9A"></circle>
+</svg>
+<div class="tall" id="tall"></div>
+<p id="bottom">底部段落</p>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "name": "twiq",
+  "productName": "Twiq",
+  "version": "0.10.0",
+  "description": "打开本地 HTML，在页面上直接改文字；保存时只改动被改的字符。",
+  "author": "Roger Luo",
+  "license": "MIT",
+  "private": true,
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:e2e": "electron-vite build && playwright test",
+    "coverage": "electron-vite build && electron . --coverage",
+    "coverage:static": "tsx scripts/coverage-static.ts",
+    "dist:mac": "electron-vite build && electron-builder --mac",
+    "dist:win": "electron-vite build && electron-builder --win",
+    "screens": "electron-vite build && tsx scripts/screens.ts",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "check:all": "pnpm check && pnpm test:e2e",
+    "hooks:install": "git config core.hooksPath .githooks",
+    "tokens": "tsx scripts/gen-tokens.ts",
+    "licenses": "tsx scripts/gen-licenses.ts"
+  },
+  "packageManager": "pnpm@10.34.5",
+  "dependencies": {
+    "chokidar": "6.0.0",
+    "entities": "8.1.0",
+    "parse5": "8.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.64.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "electron": "44.9.1",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "eslint": "10.13.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vite": "7.3.7",
+    "vitest": "5.0.5",
+    "zustand": "5.0.15"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
+  }
+}

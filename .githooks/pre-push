@@ -1,0 +1,5 @@
+#!/bin/sh
+# 推送前跑一遍端到端测试（约 2 分钟）。紧急时可用 HW_SKIP_E2E=1 跳过，并在 PR 里说明。
+set -e
+[ -n "$HW_SKIP_E2E" ] && exit 0
+pnpm -s test:e2e

@@ -1,0 +1,16 @@
+#!/bin/sh
+# 提交信息首行格式：类型前缀，见 CONTRIBUTING.md。
+first=$(head -n1 "$1")
+case "$first" in
+  Merge*|Revert*|fixup!*|squash!*) exit 0 ;;
+esac
+if ! printf '%s' "$first" | grep -qE '^(feat|fix|test|docs|chore|refactor|perf|build|ci|release)([（(：:,、 –-]|$)'; then
+  echo "commit-msg: 首行须以类型开头（feat: …、fix: …、test: …），见 CONTRIBUTING.md" >&2
+  echo "  当前：$first" >&2
+  exit 1
+fi
+len=$(printf '%s' "$first" | wc -m | tr -d ' ')
+if [ "$len" -gt 72 ]; then
+  echo "commit-msg: 首行 $len 字符，请控制在 72 以内，细节写在正文" >&2
+  exit 1
+fi

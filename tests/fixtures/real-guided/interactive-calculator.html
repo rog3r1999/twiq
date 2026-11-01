@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房贷计算器</title>
+<style>
+  body { font-family: -apple-system, sans-serif; background: #f1f5f9; display: flex; justify-content: center; padding: 40px 16px; }
+  .card { background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 520px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  h1 { margin-top: 0; font-size: 26px; }
+  .desc { color: #64748b; margin-bottom: 24px; }
+  label { display: block; font-weight: 600; margin: 16px 0 6px; }
+  input, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  button { margin-top: 24px; width: 100%; padding: 14px; background: #0ea5e9; color: #fff; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; }
+  .result { margin-top: 28px; background: #f0f9ff; border-radius: 12px; padding: 20px; }
+  .result .big { font-size: 32px; font-weight: 700; color: #0369a1; }
+  .muted { color: #64748b; font-size: 14px; }
+  .note { margin-top: 20px; font-size: 13px; color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🏠 房贷计算器</h1>
+  <p class="desc">输入贷款金额、年限和利率，快速估算每月还款额。</p>
+
+  <label for="amount">贷款金额（万元）</label>
+  <input id="amount" type="number" value="200">
+
+  <div class="row">
+    <div>
+      <label for="years">贷款年限</label>
+      <select id="years">
+        <option value="10">10 年</option>
+        <option value="20">20 年</option>
+        <option value="30" selected>30 年</option>
+      </select>
+    </div>
+    <div>
+      <label for="rate">年利率（%）</label>
+      <input id="rate" type="number" step="0.01" value="3.10">
+    </div>
+  </div>
+
+  <label>还款方式</label>
+  <div class="row">
+    <label style="font-weight:400"><input type="radio" name="type" value="equal" checked style="width:auto"> 等额本息</label>
+    <label style="font-weight:400"><input type="radio" name="type" value="principal" style="width:auto"> 等额本金</label>
+  </div>
+
+  <button id="calc">开始计算</button>
+
+  <div class="result" id="result">
+    <div class="muted">每月还款</div>
+    <div class="big" id="monthly">--</div>
+    <div class="muted" id="summary">点击“开始计算”查看结果</div>
+  </div>
+
+  <p class="note">计算结果仅供参考，实际还款金额以银行审批为准。</p>
+</div>
+
+<script>
+document.getElementById('calc').addEventListener('click', () => {
+  const P = +document.getElementById('amount').value * 10000;
+  const n = +document.getElementById('years').value * 12;
+  const r = +document.getElementById('rate').value / 100 / 12;
+  const type = document.querySelector('input[name=type]:checked').value;
+  let monthly, total;
+  if (type === 'equal') {
+    monthly = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    total = monthly * n;
+    document.getElementById('monthly').textContent = '¥' + monthly.toFixed(2);
+  } else {
+    const first = P / n + P * r;
+    total = P + P * r * (n + 1) / 2;
+    document.getElementById('monthly').textContent = '首月 ¥' + first.toFixed(2);
+  }
+  document.getElementById('summary').textContent =
+    '总利息 ¥' + (total - P).toFixed(0) + '，还款总额 ¥' + total.toFixed(0);
+});
+</script>
+</body>
+</html>

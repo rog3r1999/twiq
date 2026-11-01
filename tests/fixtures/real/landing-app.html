@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Habitly — 习惯养成 App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased">
+  <div class="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
+    <header class="container mx-auto flex items-center justify-between px-6 py-6">
+      <a href="#" class="flex items-center gap-2 text-2xl font-extrabold text-emerald-600">
+        <svg class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+        Habitly
+      </a>
+      <button class="rounded-full bg-emerald-600 px-6 py-2 font-medium text-white">下载 App</button>
+    </header>
+
+    <main class="container mx-auto px-6">
+      <section class="grid items-center gap-12 py-16 lg:grid-cols-2">
+        <div>
+          <span class="inline-block rounded-full bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-700">🎉 App Store 健康类第一名</span>
+          <h1 class="mt-6 text-5xl font-extrabold leading-tight text-gray-900">
+            21 天，<span class="text-emerald-600">养成一个好习惯</span>
+          </h1>
+          <p class="mt-6 text-lg text-gray-600">
+            Habitly 用科学的打卡节奏和温和的提醒，帮你把“想做”变成“每天都在做”。
+          </p>
+          <div class="mt-8 flex gap-4">
+            <a href="#" class="flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-white">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><rect width="20" height="20" x="2" y="2" rx="4"/></svg>
+              <span><small class="block text-xs">Download on the</small>App Store</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-white">
+              <span><small class="block text-xs">GET IT ON</small>Google Play</span>
+            </a>
+          </div>
+        </div>
+        <div class="relative mx-auto h-[520px] w-[260px] rounded-[40px] border-8 border-gray-900 bg-white shadow-2xl">
+          <div class="p-6">
+            <p class="text-sm text-gray-400">今天</p>
+            <p class="text-2xl font-bold">早上好，小林 👋</p>
+            <div class="mt-6 space-y-3">
+              <div class="flex items-center justify-between rounded-xl bg-emerald-50 p-3"><span>💧 喝 8 杯水</span><span class="text-emerald-600">6/8</span></div>
+              <div class="flex items-center justify-between rounded-xl bg-amber-50 p-3"><span>📖 阅读 20 分钟</span><span class="text-amber-600">✓</span></div>
+              <div class="flex items-center justify-between rounded-xl bg-sky-50 p-3"><span>🏃 跑步 3 公里</span><span class="text-sky-600">0/3</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16">
+        <h2 class="text-center text-3xl font-bold">用户怎么说</h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-3">
+          <figure class="rounded-2xl bg-white p-6 shadow">
+            <blockquote class="text-gray-700">“坚持早起 60 天了，这是我第一次真正做到。”</blockquote>
+            <figcaption class="mt-4 text-sm font-semibold text-gray-900">— 王同学，研究生</figcaption>
+          </figure>
+          <figure class="rounded-2xl bg-white p-6 shadow">
+            <blockquote class="text-gray-700">“提醒不烦人，统计图很好看，忍不住每天打开。”</blockquote>
+            <figcaption class="mt-4 text-sm font-semibold text-gray-900">— Lily，设计师</figcaption>
+          </figure>
+          <figure class="rounded-2xl bg-white p-6 shadow">
+            <blockquote class="text-gray-700">“和家人一起组队打卡，孩子也爱上了阅读。”</blockquote>
+            <figcaption class="mt-4 text-sm font-semibold text-gray-900">— 陈女士，两个孩子的妈妈</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t py-8 text-center text-sm text-gray-500">
+      Habitly © 2026 · <a href="#" class="underline">隐私政策</a> · <a href="#" class="underline">用户协议</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowDesk - 让团队协作更简单</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-layer-group text-indigo-600 text-2xl"></i>
+                <span class="text-xl font-bold">FlowDesk</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#features" class="hover:text-indigo-600">功能</a>
+                <a href="#pricing" class="hover:text-indigo-600">价格</a>
+                <a href="#faq" class="hover:text-indigo-600">常见问题</a>
+            </div>
+            <a href="#" class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700">免费试用</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white pt-32 pb-20">
+        <div class="max-w-4xl mx-auto text-center px-6">
+            <h1 class="text-5xl font-bold mb-6">让团队协作<br>像聊天一样简单</h1>
+            <p class="text-xl opacity-90 mb-10">FlowDesk 把任务、文档和沟通放在同一个地方。超过 <strong>12,000</strong> 个团队已经在用它提升效率。</p>
+            <div class="flex justify-center gap-4">
+                <a href="#" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold">立即开始 <i class="fas fa-arrow-right ml-2"></i></a>
+                <a href="#" class="border border-white px-8 py-3 rounded-lg">观看演示</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-4">为什么选择 FlowDesk</h2>
+            <p class="text-center text-gray-500 mb-12">三个核心能力，覆盖团队协作的全部场景</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl card-hover transition">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-tasks text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">智能任务看板</h3>
+                    <p class="text-gray-600">拖拽即可调整优先级，自动提醒即将到期的任务，再也不会漏掉重要事项。</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl card-hover transition">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-alt text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">实时协作文档</h3>
+                    <p class="text-gray-600">多人同时编辑，每一处修改都有记录。支持 Markdown、表格和嵌入看板。</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl card-hover transition">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-comments text-indigo-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">上下文沟通</h3>
+                    <p class="text-gray-600">在任务和文档旁边直接讨论，消息自动归档到对应的项目里。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="bg-white py-16">
+        <div class="max-w-5xl mx-auto grid grid-cols-3 text-center">
+            <div>
+                <div class="text-4xl font-bold text-indigo-600 counter" data-target="12000">0</div>
+                <div class="text-gray-500 mt-2">活跃团队</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold text-indigo-600 counter" data-target="98">0</div>
+                <div class="text-gray-500 mt-2">客户满意度 %</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold text-indigo-600 counter" data-target="35">0</div>
+                <div class="text-gray-500 mt-2">平均效率提升 %</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">简单透明的价格</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl border">
+                    <h3 class="text-xl font-semibold">基础版</h3>
+                    <p class="text-4xl font-bold my-4">¥0<span class="text-base font-normal text-gray-500">/月</span></p>
+                    <ul class="space-y-3 text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>最多 10 名成员</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>5 GB 存储空间</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>基础任务看板</li>
+                    </ul>
+                </div>
+                <div class="bg-indigo-600 text-white p-8 rounded-xl">
+                    <h3 class="text-xl font-semibold">专业版</h3>
+                    <p class="text-4xl font-bold my-4">¥49<span class="text-base font-normal opacity-75">/人/月</span></p>
+                    <ul class="space-y-3">
+                        <li><i class="fas fa-check mr-2"></i>不限成员数量</li>
+                        <li><i class="fas fa-check mr-2"></i>100 GB 存储空间</li>
+                        <li><i class="fas fa-check mr-2"></i>高级权限与审计日志</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="bg-white py-20">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10">常见问题</h2>
+            <div class="space-y-4">
+                <details class="border rounded-lg p-4">
+                    <summary class="font-semibold cursor-pointer">可以随时取消订阅吗？</summary>
+                    <p class="mt-3 text-gray-600">可以。取消后当前计费周期结束前仍可使用全部功能。</p>
+                </details>
+                <details class="border rounded-lg p-4">
+                    <summary class="font-semibold cursor-pointer">数据存放在哪里？</summary>
+                    <p class="mt-3 text-gray-600">所有数据加密存放在国内的数据中心，并每日备份。</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-10 text-center">
+        <p>&copy; 2026 FlowDesk. 保留所有权利。</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.counter').forEach(el => {
+            const target = +el.dataset.target;
+            let n = 0;
+            const step = Math.ceil(target / 60);
+            const timer = setInterval(() => {
+                n = Math.min(n + step, target);
+                el.textContent = n.toLocaleString();
+                if (n >= target) clearInterval(timer);
+            }, 20);
+        });
+    </script>
+</body>
+</html>

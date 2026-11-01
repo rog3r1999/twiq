@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twiq 示例页面</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", "Segoe UI", "Microsoft YaHei UI", sans-serif; max-width: 760px; margin: 0 auto; padding: 48px 24px; color: #1f2937; line-height: 1.7; }
+  h1 { font-size: 34px; margin-bottom: 8px; }
+  .lead { font-size: 18px; color: #4b5563; }
+  .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px 24px; margin: 24px 0; }
+  .stat { font-size: 40px; font-weight: 700; color: #2563eb; }
+  pre { background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow: auto; }
+  .tip { color: #6b7280; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>欢迎使用 Twiq</h1>
+<p class="lead">点一下选中这段文字，再点一下就能直接修改。</p>
+
+<div class="card">
+<h2>能改的地方</h2>
+<p>普通的标题和段落都可以直接编辑。改完按 Enter 完成；右侧面板的「改动」页会列出这次改了哪些地方，按 Cmd/Ctrl+S 保存。</p>
+<p>带有<strong>加粗</strong>和<em>强调</em>的段落同样可以编辑，加粗的格式会原样保留。</p>
+</div>
+
+<div class="card">
+<h2>不能改的地方</h2>
+<p>下面这个数字由页面脚本生成，源码里没有它。选中它再点一下，会看到原因说明：</p>
+<div class="stat" id="visitors"></div>
+<p>代码块（pre）里的文字暂不支持编辑：</p>
+<pre><code>function hello() {
+  return '你好，Twiq'
+}</code></pre>
+</div>
+
+<p class="tip">保存时只会改动你改过的那几个字，文件的其他部分一字节不变。示例页面保存时会让你选择保存位置。</p>
+
+<script>
+  document.getElementById('visitors').textContent = (12000 + 345).toLocaleString('zh-CN') + ' 位访客'
+</script>
+</body>
+</html>

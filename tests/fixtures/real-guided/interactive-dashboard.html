@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>销售看板</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-slate-100">
+<div class="flex min-h-screen">
+  <aside class="w-60 bg-slate-900 text-slate-300 p-6">
+    <p class="text-white text-xl font-bold mb-8">📊 销售看板</p>
+    <nav class="space-y-2">
+      <a class="block px-3 py-2 rounded bg-slate-800 text-white" href="#">总览</a>
+      <a class="block px-3 py-2 rounded" href="#">客户</a>
+      <a class="block px-3 py-2 rounded" href="#">订单</a>
+      <a class="block px-3 py-2 rounded" href="#">设置</a>
+    </nav>
+  </aside>
+  <main class="flex-1 p-8">
+    <h1 class="text-2xl font-bold text-slate-800">本月总览</h1>
+    <div class="grid grid-cols-4 gap-4 my-6">
+      <div class="bg-white rounded-xl p-5"><p class="text-sm text-slate-500">销售额</p><p class="text-2xl font-bold">¥128.4 万</p><p class="text-sm text-emerald-600">+12.5%</p></div>
+      <div class="bg-white rounded-xl p-5"><p class="text-sm text-slate-500">订单数</p><p class="text-2xl font-bold">3,482</p><p class="text-sm text-emerald-600">+8.1%</p></div>
+      <div class="bg-white rounded-xl p-5"><p class="text-sm text-slate-500">客单价</p><p class="text-2xl font-bold">¥368</p><p class="text-sm text-emerald-600">+4.0%</p></div>
+      <div class="bg-white rounded-xl p-5"><p class="text-sm text-slate-500">退款率</p><p class="text-2xl font-bold">1.9%</p><p class="text-sm text-emerald-600">-0.3%</p></div>
+    </div>
+    <div class="grid grid-cols-3 gap-4">
+      <div class="col-span-2 bg-white rounded-xl p-6"><h2 class="font-semibold mb-4">每日销售额</h2><canvas id="salesChart" height="110"></canvas></div>
+      <div class="bg-white rounded-xl p-6">
+        <h2 class="font-semibold mb-4">最新订单</h2>
+        <ul class="space-y-3 text-sm">
+          <li>#20931 上海某餐饮公司 <b>¥4,280</b></li>
+          <li>#20930 杭州某服装店 <b>¥1,960</b></li>
+          <li>#20929 成都某便利店 <b>¥860</b></li>
+          <li>#20928 深圳某科技公司 <b>¥12,400</b></li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-xs text-slate-400 mt-6">数据每 15 分钟更新一次</p>
+  </main>
+</div>
+<script>
+new Chart(document.getElementById('salesChart'), { type: 'line', data: { labels: Array.from({ length: 30 }, (_, i) => (i + 1) + '日'), datasets: [{ data: Array.from({ length: 30 }, () => 30 + Math.random() * 30), borderColor: '#2563eb' }] }, options: { plugins: { legend: { display: false } } } });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+#!/bin/sh
+# 提交前门禁：改到文档以外的文件时运行类型检查、lint 与单元测试（约 10 秒）。
+# 端到端测试较慢，放在 pre-push 与 CI。
+set -e
+if git diff --cached --name-only | grep -qvE '\.md$|^docs/|^LICENSE$'; then
+  pnpm -s typecheck
+  pnpm -s lint
+  pnpm -s test
+fi
+# 禁止误提交的临时文件与密钥
+if git diff --cached --name-only | grep -E '\.tmp\.mjs$|(^|/)\.env|\.p12$|\.pem$|\.DS_Store$'; then
+  echo "pre-commit: 上面这些文件不应提交" >&2
+  exit 1
+fi
