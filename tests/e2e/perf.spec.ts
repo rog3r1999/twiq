@@ -3,6 +3,9 @@ import { expect, test } from '@playwright/test'
 import path from 'node:path'
 import { clickAt, editing, launch, preview, sleep, waitFor, workdir, ws, type Ctx } from './helpers'
 
+// 慢机器上的宽限系数：GitHub 的 Windows 虚拟机设为 1.5（见 ci.yml）。产品指标本身不变，本机与 macOS CI 按 1 检查
+const slack = Number(process.env.HW_PERF_SLACK) || 1
+
 let ctx: Ctx | null = null
 test.afterEach(async () => {
   if (!ctx) return
@@ -57,10 +60,10 @@ test('AC-41 1MB：打开到可编辑 ≤ 2s，单次提交 ≤ 200ms，悬停反
     return performance.now() - t0
   })
   console.log(`main commit ${mainCommitMs.toFixed(0)}ms`)
-  expect(mainCommitMs).toBeLessThan(200)
+  expect(mainCommitMs).toBeLessThan(200 * slack)
   console.log(`open→editable ${openMs}ms, commit ${commitMs}ms, hover ${hoverMs}ms`)
-  expect(openMs).toBeLessThan(2000)
-  expect(commitMs).toBeLessThan(200 + 150) // 含测试轮询间隔（100ms）与 IPC
+  expect(openMs).toBeLessThan(2000 * slack)
+  expect(commitMs).toBeLessThan((200 + 150) * slack) // 含测试轮询间隔（100ms）与 IPC
   expect(hoverMs).toBeGreaterThanOrEqual(0)
-  expect(hoverMs).toBeLessThan(100)
+  expect(hoverMs).toBeLessThan(100 * slack)
 })
